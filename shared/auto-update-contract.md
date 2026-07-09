@@ -1,4 +1,4 @@
-# Auto Version Check Contract (v1.15)
+# Auto Version Check Contract (v1.15.1)
 
 Автопроверка версии T-800 при старте сессии Cursor — без ручного `/t800-update` каждый раз.
 
@@ -25,12 +25,18 @@
 sessionStart
   → t800-auto-version-check.sh --json
        → cache TTL (default 6ч) → skip network
-       → curl plugin.json с GitHub (timeout короткий)
+       → GitHub API contents/.cursor-plugin/plugin.json (raw)
+         fallback: raw.githubusercontent.com + cache-buster
        → если remote > local → t800-update-from-github.sh
   → stdout JSON:
        additional_context (если updated/available/failed/bootstrap)
        env.T800_VERSION_STATUS / T800_PLUGIN_UPDATED
 ```
+
+## Почему не только raw CDN
+
+`raw.githubusercontent.com` после push на `main` может ещё минуты отдавать старый `plugin.json`.  
+Канон чтения версии — **GitHub Contents API** с `Accept: application/vnd.github.raw+json`.
 
 ## Закон для Директора (агента)
 
@@ -61,4 +67,4 @@ bash scripts/t800-auto-version-check.sh
 
 ## Версия
 
-Введён: 2026-07-09 · T-800 **1.15.0**
+Введён: 2026-07-09 · T-800 **1.15.0** · патч API: **1.15.1**

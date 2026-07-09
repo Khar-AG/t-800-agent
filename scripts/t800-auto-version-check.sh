@@ -83,7 +83,27 @@ if [[ -f "$CHANNEL" ]]; then
   BRANCH="$(python3 -c "import json; d=json.load(open('$CHANNEL')); print(d.get('branch','$BRANCH'))" 2>/dev/null || echo "$BRANCH")"
 fi
 
-remote_url="https://raw.githubusercontent.com/${REPO_SLUG}/${BRANCH}/.cursor-plugin/plugin.json"
+# Версию читаем через GitHub API (не raw CDN — у raw бывает лаг после push).
+# Fallback: raw.githubusercontent.com.
+fetch_remote_plugin_json() {
+  local out="$1"
+  local api_url="https://api.github.com/repos/${REPO_SLUG}/contents/.cursor-plugin/plugin.json?ref=${BRANCH}"
+  local raw_url="https://raw.githubusercontent.com/${REPO_SLUG}/${BRANCH}/.cursor-plugin/plugin.json"
+  if curl -fsSL --connect-timeout 4 --max-time 12 \
+      -H "Accept: application/vnd.github.raw+json" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      -H "User-Agent: t-800-agent-auto-update" \
+      "$api_url" -o "$out" 2>/dev/null; then
+    return 0
+  fi
+  if curl -fsSL --connect-timeout 4 --max-time 12 \
+      -H "Cache-Control: no-cache" \
+      -H "User-Agent: t-800-agent-auto-update" \
+      "${raw_url}?$(date +%s)" -o "$out" 2>/dev/null; then
+    return 0
+  fi
+  return 1
+}
 
 local_version() {
   if [[ -f "$PLUGIN_DEST/.cursor-plugin/plugin.json" ]]; then
@@ -138,7 +158,7 @@ if cache_fresh; then
 fi
 
 TMP="$(mktemp)"
-if ! curl -fsSL --connect-timeout 4 --max-time 12 "$remote_url" -o "$TMP" 2>/dev/null; then
+if ! fetch_remote_plugin_json "$TMP"; then
   rm -f "$TMP"
   fail_open "нет сети или GitHub недоступен"
 fi

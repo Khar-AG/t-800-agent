@@ -38,19 +38,31 @@ done
 
 mkdir -p "$CACHE_DIR"
 
-remote_plugin_json_url="https://raw.githubusercontent.com/${REPO_SLUG}/${BRANCH}/.cursor-plugin/plugin.json"
 remote_zip_url="https://github.com/${REPO_SLUG}/archive/refs/heads/${BRANCH}.zip"
+api_plugin_json_url="https://api.github.com/repos/${REPO_SLUG}/contents/.cursor-plugin/plugin.json?ref=${BRANCH}"
+raw_plugin_json_url="https://raw.githubusercontent.com/${REPO_SLUG}/${BRANCH}/.cursor-plugin/plugin.json"
 
 echo "T-800 update: репозиторий ${REPO_SLUG}@${BRANCH}"
 
 fetch_remote_version() {
   local tmp
   tmp="$(mktemp)"
-  if ! curl -fsSL "$remote_plugin_json_url" -o "$tmp" 2>/dev/null; then
-    rm -f "$tmp"
-    echo "ERROR: не удалось скачать remote plugin.json" >&2
-    echo "  URL: $remote_plugin_json_url" >&2
-    exit 1
+  # GitHub API first (без CDN-лага raw.githubusercontent.com)
+  if ! curl -fsSL --connect-timeout 6 --max-time 20 \
+      -H "Accept: application/vnd.github.raw+json" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      -H "User-Agent: t-800-agent-update" \
+      "$api_plugin_json_url" -o "$tmp" 2>/dev/null; then
+    if ! curl -fsSL --connect-timeout 6 --max-time 20 \
+        -H "Cache-Control: no-cache" \
+        -H "User-Agent: t-800-agent-update" \
+        "${raw_plugin_json_url}?$(date +%s)" -o "$tmp" 2>/dev/null; then
+      rm -f "$tmp"
+      echo "ERROR: не удалось скачать remote plugin.json" >&2
+      echo "  API: $api_plugin_json_url" >&2
+      echo "  RAW: $raw_plugin_json_url" >&2
+      exit 1
+    fi
   fi
   python3 -c "import json; print(json.load(open('$tmp'))['version'])"
   rm -f "$tmp"

@@ -2,6 +2,12 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.15.1 — 2026-07-09
+
+- Версию с GitHub читаем через **API** (`Accept: application/vnd.github.raw+json`), не через CDN `raw.githubusercontent.com` (у raw бывает лаг после push)
+- Fallback на raw с cache-buster, если API недоступен
+- Исправлено: после релиза 1.15.0 auto-check мог видеть старую 1.14.0 и уходить в fail-open
+
 ## 1.15.0 — 2026-07-09
 
 - **Автопроверка версии** на `sessionStart`: `t800-auto-version-check.sh` + hook JSON `additional_context`
