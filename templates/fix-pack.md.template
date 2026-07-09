@@ -1,0 +1,50 @@
+# Fix Pack: {{slug}}
+
+> Шаблон: скопируйте в `{memory_path}/fix-packs/<slug>.md`  
+> Контракт: `shared/fix-pipeline-contract.md`
+
+## goal
+
+Кратко: что должно стать лучше после PATCH.
+
+## surface
+
+`cursor-plugin` | `cursor-workspace` | `cursor-user`
+
+plugin_root (если есть):
+
+```text
+{{plugin_root}}
+```
+
+## files
+
+Список путей относительно plugin_root / workspace (только их можно править):
+
+- `path/to/file1.md`
+- `path/to/file2.md`
+
+## changes
+
+Что сделать по каждому файлу / группе:
+
+1. …
+2. …
+
+## constraints
+
+- Не трогать файлы вне `files`
+- Не добавлять новых research/brain агентов
+- …
+
+## research_mode
+
+`skip` | `light` | `deep`
+
+<!-- default для /t800-fix: skip или light; deep только если явно нужно -->
+
+## success_criteria
+
+- [ ] Изменения только в listed files
+- [ ] `python3 scripts/t800_run_gate.py --memory-path …` exit 0
+- [ ] …

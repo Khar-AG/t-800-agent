@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "plugins": [
+    {
+      "slug": "example-plugin",
+      "display_name": "Example Plugin",
+      "plugin_root": "/absolute/path/to/git/checkout",
+      "release_handoff": null,
+      "aliases": ["example", "ex"]
+    }
+  ]
+}

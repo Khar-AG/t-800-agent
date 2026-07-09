@@ -1,0 +1,464 @@
+{
+  "$schema": "./agents-registry.schema.json",
+  "version": 2,
+  "updated": "2026-07-09",
+  "plugin": "t-800-agent",
+  "categories": {
+    "scout": "Разведывательный модуль (Recon)",
+    "research": "Автономная DEEP-разведка: strategist → specialists → synthesizer",
+    "brains": "Нейросеть Skynet — документация Cursor",
+    "factory": "Сборочный конвейер артефактов",
+    "mentor": "Оператор и онбординг новичков",
+    "system": "Системный аудит плагинов и инфраструктуры Cursor",
+    "maintainer": "Синхронизатор памяти KB"
+  },
+  "agents": [
+    {
+      "id": "t-800-scout",
+      "file": "agents/t-800-scout.md",
+      "category": "scout",
+      "readonly": true,
+      "calls": [
+        "t-800-maintainer",
+        "t-800-research-lead"
+      ],
+      "calledBy": [
+        "main-agent",
+        "t-800-factory"
+      ],
+      "description": "cursor.com vs manifest; триггер research при stale"
+    },
+    {
+      "id": "t-800-intake-clarifier",
+      "file": "agents/t-800-intake-clarifier.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "2–5 вопросов до DEEP research: модели, MCP, surface, integrations"
+    },
+    {
+      "id": "t-800-research-lead",
+      "file": "agents/t-800-research-lead.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [
+        "t-800-research-strategist",
+        "t-800-research-github",
+        "t-800-research-repo-miner",
+        "t-800-research-community",
+        "t-800-research-clawhub",
+        "t-800-research-vendor-docs",
+        "t-800-research-docs",
+        "t-800-research-news",
+        "t-800-research-synthesizer"
+      ],
+      "calledBy": [
+        "main-agent",
+        "t-800-factory",
+        "t-800-scout"
+      ],
+      "description": "Оркестратор: strategist → fan-out → synthesizer + coverage_matrix"
+    },
+    {
+      "id": "t-800-research-strategist",
+      "file": "agents/t-800-research-strategist.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "Сам выбирает куда искать → search_plan (без списка сайтов от пользователя)"
+    },
+    {
+      "id": "t-800-research-synthesizer",
+      "file": "agents/t-800-research-synthesizer.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "Сравнивает источники → один оптимальный подход + merge_plan"
+    },
+    {
+      "id": "t-800-research-github",
+      "file": "agents/t-800-research-github.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "GitHub shallow + top_repos handoff → repo-miner"
+    },
+    {
+      "id": "t-800-research-repo-miner",
+      "file": "agents/t-800-research-repo-miner.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "Deep mine ≥2 GitHub repos: SKILL/agents/hooks/scripts"
+    },
+    {
+      "id": "t-800-research-community",
+      "file": "agents/t-800-research-community.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "Reddit, Habr, X, HN — свежие идеи"
+    },
+    {
+      "id": "t-800-research-clawhub",
+      "file": "agents/t-800-research-clawhub.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "clawhub.ai Top/Trending/New; adapt + attribution; no verbatim"
+    },
+    {
+      "id": "t-800-research-vendor-docs",
+      "file": "agents/t-800-research-vendor-docs.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "OpenAI Cookbook + Claude + Gemini + Perplexity + Kie + Cursor docs/ideas"
+    },
+    {
+      "id": "t-800-research-docs",
+      "file": "agents/t-800-research-docs.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "Context7 library/API/SDK/MCP docs; budget ≤5 DEEP"
+    },
+    {
+      "id": "t-800-research-news",
+      "file": "agents/t-800-research-news.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-research-lead"
+      ],
+      "description": "Changelog/HN/blogs news pass; prefer ≤30d"
+    },
+    {
+      "id": "t-800-prompt-craft",
+      "file": "agents/t-800-prompt-craft.md",
+      "category": "research",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "main-agent",
+        "t-800-factory"
+      ],
+      "description": "Vendor prompt craft Claude/GPT/Gemini/Cursor; prompt_spec; anti Description Trap"
+    },
+    {
+      "id": "t-800-brain-lead",
+      "file": "agents/t-800-brain-lead.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [
+        "t-800-brain-agents",
+        "t-800-brain-context",
+        "t-800-brain-cloud",
+        "t-800-brain-dev",
+        "t-800-brain-admin",
+        "t-800-brain-security",
+        "t-800-brain-tools",
+        "t-800-brain-teya"
+      ],
+      "calledBy": [
+        "main-agent",
+        "t-800-factory"
+      ],
+      "description": "Диспетчер доменных мозгов + research_brief"
+    },
+    {
+      "id": "t-800-brain-agents",
+      "file": "agents/t-800-brain-agents.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: Agent и режимы"
+    },
+    {
+      "id": "t-800-brain-context",
+      "file": "agents/t-800-brain-context.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: rules, skills, subagents, MCP"
+    },
+    {
+      "id": "t-800-brain-cloud",
+      "file": "agents/t-800-brain-cloud.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: cloud, automations, hooks"
+    },
+    {
+      "id": "t-800-brain-dev",
+      "file": "agents/t-800-brain-dev.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: CLI, SDK, API"
+    },
+    {
+      "id": "t-800-brain-admin",
+      "file": "agents/t-800-brain-admin.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: teams, billing, integrations"
+    },
+    {
+      "id": "t-800-brain-security",
+      "file": "agents/t-800-brain-security.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: security, run modes"
+    },
+    {
+      "id": "t-800-brain-tools",
+      "file": "agents/t-800-brain-tools.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: terminal, browser, search"
+    },
+    {
+      "id": "t-800-brain-teya",
+      "file": "agents/t-800-brain-teya.md",
+      "category": "brains",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-brain-lead"
+      ],
+      "description": "KB: Teya Pro plugin paths, contracts, release"
+    },
+    {
+      "id": "t-800-factory",
+      "file": "agents/t-800-factory.md",
+      "category": "factory",
+      "readonly": false,
+      "calls": [
+        "t-800-scout",
+        "t-800-research-lead",
+        "t-800-brain-lead",
+        "t-800-factory-architect",
+        "t-800-factory-builder",
+        "t-800-factory-integrator",
+        "t-800-factory-auditor",
+        "t-800-prompt-craft",
+        "t-800-artifact-hooks",
+        "t-800-artifact-scripts",
+        "t-800-mcp-wiring",
+        "t-800-prompt-auditor"
+      ],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Лид фабрики: plugin + workspace + user surfaces"
+    },
+    {
+      "id": "t-800-factory-architect",
+      "file": "agents/t-800-factory-architect.md",
+      "category": "factory",
+      "readonly": true,
+      "calls": [
+        "t-800-artifact-hooks",
+        "t-800-artifact-scripts",
+        "t-800-mcp-wiring"
+      ],
+      "calledBy": [
+        "t-800-factory"
+      ],
+      "description": "Спецификация артефакта + surface"
+    },
+    {
+      "id": "t-800-factory-builder",
+      "file": "agents/t-800-factory-builder.md",
+      "category": "factory",
+      "readonly": false,
+      "calls": [],
+      "calledBy": [
+        "t-800-factory"
+      ],
+      "description": "Создание файлов по surface"
+    },
+    {
+      "id": "t-800-factory-integrator",
+      "file": "agents/t-800-factory-integrator.md",
+      "category": "factory",
+      "readonly": false,
+      "calls": [
+        "t-800-factory-auditor"
+      ],
+      "calledBy": [
+        "t-800-factory"
+      ],
+      "description": "Wiring: plugin registry или .cursor/"
+    },
+    {
+      "id": "t-800-factory-auditor",
+      "file": "agents/t-800-factory-auditor.md",
+      "category": "factory",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-factory",
+        "t-800-factory-integrator"
+      ],
+      "description": "Валидация + freshness brief"
+    },
+    {
+      "id": "t-800-artifact-hooks",
+      "file": "agents/t-800-artifact-hooks.md",
+      "category": "factory",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-factory-architect",
+        "t-800-factory"
+      ],
+      "description": "hooks.json v1 object map; block vs observe; cloud-safe hook design"
+    },
+    {
+      "id": "t-800-artifact-scripts",
+      "file": "agents/t-800-artifact-scripts.md",
+      "category": "factory",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-factory-architect",
+        "t-800-factory"
+      ],
+      "description": "Install/validate/gate bash+pwsh script design patterns"
+    },
+    {
+      "id": "t-800-mcp-wiring",
+      "file": "agents/t-800-mcp-wiring.md",
+      "category": "factory",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-factory-architect",
+        "t-800-factory"
+      ],
+      "description": "MCP wiring: GetMcpTools first, FQ names, lazy; Context7 example"
+    },
+    {
+      "id": "t-800-prompt-auditor",
+      "file": "agents/t-800-prompt-auditor.md",
+      "category": "factory",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-factory"
+      ],
+      "description": "Prompt QA gate before factory-auditor; ok|blocked checklist"
+    },
+    {
+      "id": "t-800-onboard",
+      "file": "agents/t-800-onboard.md",
+      "category": "mentor",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Онбординг: аудит global/local Cursor + возможности T-800"
+    },
+    {
+      "id": "t-800-system-auditor",
+      "file": "agents/t-800-system-auditor.md",
+      "category": "mentor",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Интерактивный разбор rules/skills/commands — bloat, alwaysApply, keep/narrow/remove"
+    },
+    {
+      "id": "t-800-plugin-auditor",
+      "file": "agents/t-800-plugin-auditor.md",
+      "category": "system",
+      "readonly": false,
+      "calls": [],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Аудит одного плагина: inventory/graph/orphans/alwaysApply → {memory}/audits/"
+    },
+    {
+      "id": "t-800-operator",
+      "file": "agents/t-800-operator.md",
+      "category": "mentor",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Наставник для новичков (опционально)"
+    },
+    {
+      "id": "t-800-maintainer",
+      "file": "agents/t-800-maintainer.md",
+      "category": "maintainer",
+      "readonly": false,
+      "calls": [],
+      "calledBy": [
+        "main-agent",
+        "t-800-scout"
+      ],
+      "description": "Sync KB из cursor.com"
+    }
+  ]
+}

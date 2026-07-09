@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "bash hooks/example-session-bootstrap.sh"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "bash hooks/example-after-file-edit.sh"
+      }
+    ]
+  }
+}

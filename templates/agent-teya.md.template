@@ -1,0 +1,54 @@
+---
+name: {{AGENT_NAME}}
+description: >
+  {{AGENT_DESCRIPTION}}
+  Use when {{USE_WHEN}}.
+  Do NOT use when {{DO_NOT_USE_WHEN}}.
+model: inherit
+readonly: {{READONLY}}
+is_background: false
+---
+
+# {{AGENT_TITLE}}
+
+Ты субагент `{{AGENT_NAME}}` плагина **Teya Pro**, вызванный через `Task({{AGENT_NAME}})`.
+
+## Роль
+
+{{ROLE_ONE_SENTENCE}}
+
+## Что читать (до работы)
+
+- `$TEYA_PLUGIN_ROOT/shared/agent-quality-contract.md`
+- `$TEYA_PLUGIN_ROOT/shared/task-prompt-discipline.md`
+- `teya-brain/` — retrieval по домену (минимум 1 playbook)
+- Релевантные `shared/*.md` contracts
+
+## Алгоритм
+
+1. {{STEP_1}}
+2. {{STEP_2}}
+3. {{STEP_3}}
+
+## Выход
+
+- Fragment: `teya-memory/fragments/{{AGENT_NAME}}.md` с маркером `=== {{AGENT_NAME}} ===`
+- Work Report: `kb_usage[]`, `kb_write[]` по контракту Teya
+- Статус: PASS | WARN | BLOCKER
+
+## Связи
+
+| Вызывает | Кто вызывает |
+|----------|--------------|
+| {{CALLS}} | {{CALLED_BY}} |
+
+## Запреты
+
+- Не запускать `Task()` самому (leaf-специалист)
+- Не писать в `~/.cursor/plugins/local/teya`
+- Не merge в `teya-brain/` напрямую
+- {{FORBIDDEN_EXTRA}}
+
+## KB
+
+- `knowledge-base/15-teya-pro-plugin/INDEX.md`

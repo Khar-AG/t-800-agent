@@ -1,0 +1,36 @@
+---
+description: >
+  Маршрутизация к T-800 Factory: создание субагентов, проектирование плагина,
+  интеграция агентов, реестр, граф связей, масштабирование 100+ agents.
+  Делегируй Task(t-800-factory), не создавай агентов ad-hoc в main chat.
+alwaysApply: false
+---
+
+# T-800 Factory — маршрутизация
+
+## Когда вызывать `Task(t-800-factory)`
+
+- Пользователь хочет **создать нового субагента**
+- Проектирование **большого плагина** с множеством агентов
+- Вопросы: subagent vs skill, routing, registry, связи между агентами
+- Явный вызов: `/t-800-factory`, «отдел субагентов», «T-800 Factory»
+- После идеи нового агента — **всегда** через Factory pipeline
+
+## Когда НЕ вызывать
+
+- Обучение новичка Cursor → `Task(t-800-operator)`
+- Обновление KB T-800 → `Task(t-800-maintainer)`
+- Пользователь просит просто выполнить задачу без создания агента
+
+## Пайплайн
+
+```
+Task(t-800-scout) → Task(t-800-brain-lead) → Task(t-800-factory) → architect → builder → integrator → auditor
+```
+
+См. также `rules/t-800-mandatory-routing.mdc` (alwaysApply).
+
+## KB
+
+- `knowledge-base/13-agent-factory/INDEX.md`
+- `knowledge-base/14-t-800-brains/INDEX.md`

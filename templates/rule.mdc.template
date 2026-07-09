@@ -1,0 +1,9 @@
+---
+description: >
+  {{RULE_DESCRIPTION}}
+alwaysApply: {{ALWAYS_APPLY}}
+---
+
+# {{RULE_TITLE}}
+
+{{RULE_BODY}}

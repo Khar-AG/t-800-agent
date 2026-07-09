@@ -1,0 +1,233 @@
+﻿{
+    "schema_version":  1,
+    "sources":  [
+                    "https://cursor.com/ru/docs",
+                    "https://cursor.com/ru/learn",
+                    "https://cursor.com/ru/help",
+                    "https://cursor.com/ru/docs/api",
+                    "https://cursor.com/docs"
+                ],
+    "pages":  {
+                  "https://cursor.com/docs/agent/plan-mode":  {
+                                                                  "last_synced":  "2026-07-02",
+                                                                  "sha256":  "4275a5da2c6ee1bde026b092b955a613e0261f637f520235b65030684fc4c0b0",
+                                                                  "file":  "raw/docs_agent_plan-mode.md"
+                                                              },
+                  "https://cursor.com/ru/help/ai-features/tab":  {
+                                                                     "last_synced":  "2026-07-02",
+                                                                     "sha256":  "af6266bf7efc52b7454b8a97e99f7f1ffa39647e7fa7788bc0a10f8f02bc91e1",
+                                                                     "file":  "raw/ru_help_ai-features_tab.md"
+                                                                 },
+                  "https://cursor.com/ru/docs":  {
+                                                     "last_synced":  "2026-07-02",
+                                                     "sha256":  "e0ad405214f2664b5ee195b11ca67a986330975064ec2bc7d1cd1f50a13a37f7",
+                                                     "file":  "raw/ru_docs.md"
+                                                 },
+                  "https://cursor.com/docs/cloud-agent":  {
+                                                              "last_synced":  "2026-07-02",
+                                                              "sha256":  "a192bb65da3c9cc44fae61c743c7f78f1dfa3160c9ed2a53448435aa87ec1c18",
+                                                              "file":  "raw/docs_cloud-agent.md"
+                                                          },
+                  "https://cursor.com/docs/agent/tools/canvas":  {
+                                                                     "last_synced":  "2026-07-02",
+                                                                     "sha256":  "b6fefde7db912c027116e1ae7ac1c030e42a65ed1a00d78f975e1993c61e891e",
+                                                                     "file":  "raw/docs_agent_tools_canvas.md"
+                                                                 },
+                  "https://cursor.com/help/ai-features/ask-mode":  {
+                                                                       "last_synced":  "2026-07-02",
+                                                                       "sha256":  "2c6d6fbe5f3d7e34fd240a8c56a8234a0359f27e86edbd376009a0f4e00845e5",
+                                                                       "file":  "raw/help_ai-features_ask-mode.md"
+                                                                   },
+                  "https://cursor.com/docs/skills":  {
+                                                         "last_synced":  "2026-07-02",
+                                                         "sha256":  "2bf7393e45241c9a0d3599d85531f300a0b1f4f9483a8a2d15017f2af89db77d",
+                                                         "file":  "raw/docs_skills.md"
+                                                     },
+                  "https://cursor.com/docs/agent/debug-mode":  {
+                                                                   "last_synced":  "2026-07-02",
+                                                                   "sha256":  "1523e00365f2830408b8a2c58532370c2419fedae2e1e685d813b5d20c952044",
+                                                                   "file":  "raw/docs_agent_debug-mode.md"
+                                                               },
+                  "https://cursor.com/help/models-and-usage/usage-limits":  {
+                                                                                "last_synced":  "2026-07-02",
+                                                                                "sha256":  "fa85da7e9f016ca2ac7ac73a3dd5a44c27f910b167503091b1a3592f0420a208",
+                                                                                "file":  "raw/help_models-and-usage_usage-limits.md"
+                                                                            },
+                  "https://cursor.com/docs/agent/design-mode":  {
+                                                                    "last_synced":  "2026-07-02",
+                                                                    "sha256":  "7a9106d019569e8cc137803b6f83f04955a136f69b1b8af2724fea5b3f8411fa",
+                                                                    "file":  "raw/docs_agent_design-mode.md"
+                                                                },
+                  "https://cursor.com/docs/agent/tools/browser":  {
+                                                                      "last_synced":  "2026-07-02",
+                                                                      "sha256":  "26332a45cdf76fc05df2b4dac21b671ae7928559ae09dfa4ccbd4977f4b508ae",
+                                                                      "file":  "raw/docs_agent_tools_browser.md"
+                                                                  },
+                  "https://cursor.com/docs/hooks":  {
+                                                        "last_synced":  "2026-07-02",
+                                                        "sha256":  "7002299e93f02c5f6ec4112187d414975a9fb3f00d1dcc8347b55bfdcf5bfca5",
+                                                        "file":  "raw/docs_hooks.md"
+                                                    },
+                  "https://cursor.com/docs/account/teams/setup":  {
+                                                                      "last_synced":  "2026-07-02",
+                                                                      "sha256":  "b79edf4f5a0cc4bf1b71bf6dec9c1b10d05e4d66ba128cc388aca79141370488",
+                                                                      "file":  "raw/docs_account_teams_setup.md"
+                                                                  },
+                  "https://cursor.com/docs/cloud-agent/api/endpoints":  {
+                                                                            "last_synced":  "2026-07-02",
+                                                                            "sha256":  "e79d6182b486efecc3eb6c08c266b0d669e225236703e7639d17bdc6736e7796",
+                                                                            "file":  "raw/docs_cloud-agent_api_endpoints.md"
+                                                                        },
+                  "https://cursor.com/ru/docs/api":  {
+                                                         "last_synced":  "2026-07-02",
+                                                         "sha256":  "1b3f2ef36ca172650c5643fbfd65ca2a14ebc8f5a92b4d34e5525a1af905a882",
+                                                         "file":  "raw/ru_docs_api.md"
+                                                     },
+                  "https://cursor.com/ru/help":  {
+                                                     "last_synced":  "2026-07-02",
+                                                     "sha256":  "44bf4ee8cbc27267d45f5f60664caaa0cfb1889fd24fb33799e5f50622d83c39",
+                                                     "file":  "raw/ru_help.md"
+                                                 },
+                  "https://cursor.com/docs/bugbot":  {
+                                                         "last_synced":  "2026-07-02",
+                                                         "sha256":  "d346835a3a67219ee7099e5707854d492cd80cca6fec8b1c2154f513728e77ab",
+                                                         "file":  "raw/docs_bugbot.md"
+                                                     },
+                  "https://cursor.com/docs/agent/agent-review":  {
+                                                                     "last_synced":  "2026-07-02",
+                                                                     "sha256":  "b46d935d34494a5310f201156cf08781bb6badccf429df10f4edbf9dc2ee5d6d",
+                                                                     "file":  "raw/docs_agent_agent-review.md"
+                                                                 },
+                  "https://cursor.com/ru/docs/subagents":  {
+                                                               "last_synced":  "2026-07-02",
+                                                               "sha256":  "08a4d7691cdf4ae46a4b42dcfb2e4873844e021086865456acf02076c54ab3e1",
+                                                               "file":  "raw/ru_docs_subagents.md"
+                                                           },
+                  "https://cursor.com/docs/integrations/linear":  {
+                                                                      "last_synced":  "2026-07-02",
+                                                                      "sha256":  "824370a3797043af7edaf7020d12db5dfdb83f180e80b88823d7e6724b9880a5",
+                                                                      "file":  "raw/docs_integrations_linear.md"
+                                                                  },
+                  "https://cursor.com/docs/sdk/python":  {
+                                                             "last_synced":  "2026-07-02",
+                                                             "sha256":  "dfff7c97adda895279980db56d1488419e18ca53ad90463863c17aadbb36c452",
+                                                             "file":  "raw/docs_sdk_python.md"
+                                                         },
+                  "https://cursor.com/docs/models-and-pricing":  {
+                                                                     "last_synced":  "2026-07-02",
+                                                                     "sha256":  "72b58f27ddb298510a6a65ddc51101c023675578bb657374aa16ae7ba8a4f4f0",
+                                                                     "file":  "raw/docs_models-and-pricing.md"
+                                                                 },
+                  "https://cursor.com/docs/sdk/typescript":  {
+                                                                 "last_synced":  "2026-07-02",
+                                                                 "sha256":  "d59d76ad9232a1778e5e32e0702fae606257120819ae3fabe513faf29c235e91",
+                                                                 "file":  "raw/docs_sdk_typescript.md"
+                                                             },
+                  "https://cursor.com/docs/security-agents":  {
+                                                                  "last_synced":  "2026-07-02",
+                                                                  "sha256":  "f7f3bc7abe17d92a55c340d71223d3aff5abe97b5d5eb8bec95311987a738f76",
+                                                                  "file":  "raw/docs_security-agents.md"
+                                                              },
+                  "https://cursor.com/ru/help/ai-features/agent":  {
+                                                                       "last_synced":  "2026-07-02",
+                                                                       "sha256":  "3c374e84c7eefadca723a54a62e347e52c9b9e23fdf88be8f4049131445546d4",
+                                                                       "file":  "raw/ru_help_ai-features_agent.md"
+                                                                   },
+                  "https://cursor.com/docs/integrations/github":  {
+                                                                      "last_synced":  "2026-07-02",
+                                                                      "sha256":  "40c6dc78721c824bebc7e33c369bf4b4d5ab43eab83efb133848fbc2cf680ada",
+                                                                      "file":  "raw/docs_integrations_github.md"
+                                                                  },
+                  "https://cursor.com/ru/docs/get-started/quickstart":  {
+                                                                            "last_synced":  "2026-07-02",
+                                                                            "sha256":  "e3f5de9febb007e57aa5cf5a2f33f845e16c8e36616be189f199a2f5b23bc2b0",
+                                                                            "file":  "raw/ru_docs_get-started_quickstart.md"
+                                                                        },
+                  "https://cursor.com/docs/cloud-agent/settings":  {
+                                                                       "last_synced":  "2026-07-02",
+                                                                       "sha256":  "aa896bcab279fdc19a400d9c30f96609994a2cc4d2eca07d9c65e445902ab0f2",
+                                                                       "file":  "raw/docs_cloud-agent_settings.md"
+                                                                   },
+                  "https://cursor.com/docs/integrations/slack":  {
+                                                                     "last_synced":  "2026-07-02",
+                                                                     "sha256":  "5b67af4eac0923f13661fda0ba16cd1fd2dc05ed1c008905538bd8addb83cd0b",
+                                                                     "file":  "raw/docs_integrations_slack.md"
+                                                                 },
+                  "https://cursor.com/docs/agent/security":  {
+                                                                 "last_synced":  "2026-07-02",
+                                                                 "sha256":  "ac39d23d9e088af61c7177a3b3c25193cb91e15f62bedcd9112b7df510f5166c",
+                                                                 "file":  "raw/docs_agent_security.md"
+                                                             },
+                  "https://cursor.com/docs/agent/prompting":  {
+                                                                  "last_synced":  "2026-07-02",
+                                                                  "sha256":  "5ef07d7114d96bd63ad8debb35128c5368e89a6290f5d83eabe860376f919d55",
+                                                                  "file":  "raw/docs_agent_prompting.md"
+                                                              },
+                  "https://cursor.com/ru/docs/agent/overview":  {
+                                                                    "last_synced":  "2026-07-02",
+                                                                    "sha256":  "80a55df70dd82a901a6c8d8cc4d18351db69df1c098c89d264cccb4c693ec377",
+                                                                    "file":  "raw/ru_docs_agent_overview.md"
+                                                                },
+                  "https://cursor.com/docs/agent/tools/terminal":  {
+                                                                       "last_synced":  "2026-07-02",
+                                                                       "sha256":  "b9e348cc702784f3d4df4a65f6b155455a6917217c3692fbb173478fab7ab7e8",
+                                                                       "file":  "raw/docs_agent_tools_terminal.md"
+                                                                   },
+                  "https://cursor.com/docs/mcp":  {
+                                                      "last_synced":  "2026-07-02",
+                                                      "sha256":  "dc872769336f99e7d55bb889a3ddfdfd949ac3e6da3d40bfe487fdfbfab61506",
+                                                      "file":  "raw/docs_mcp.md"
+                                                  },
+                  "https://cursor.com/docs/agent/security/run-modes":  {
+                                                                           "last_synced":  "2026-07-02",
+                                                                           "sha256":  "2af98a0098e61b917e72c446ab467f6753fdb12022441e0b9d47ce20802decd6",
+                                                                           "file":  "raw/docs_agent_security_run-modes.md"
+                                                                       },
+                  "https://cursor.com/docs/cloud-agent/automations":  {
+                                                                          "last_synced":  "2026-07-02",
+                                                                          "sha256":  "c7a543a7f000942fb5396bb71720b46b49f4d988f0e2deb4dbb9f0ca9ec5dedb",
+                                                                          "file":  "raw/docs_cloud-agent_automations.md"
+                                                                      },
+                  "https://cursor.com/docs/cli/headless":  {
+                                                               "last_synced":  "2026-07-02",
+                                                               "sha256":  "61273a70f79bd91262c22814053035db8390b4ce661f573f456d87f35776cc38",
+                                                               "file":  "raw/docs_cli_headless.md"
+                                                           },
+                  "https://cursor.com/docs/cli/overview":  {
+                                                               "last_synced":  "2026-07-02",
+                                                               "sha256":  "964dde1e9868a66f671b175104cc7cab0bf98d747ae0189b235802fe175952b0",
+                                                               "file":  "raw/docs_cli_overview.md"
+                                                           },
+                  "https://cursor.com/docs/agent/agents-window":  {
+                                                                      "last_synced":  "2026-07-02",
+                                                                      "sha256":  "cb2da4db3c4274ef3c45ee0d71171744246a271eb0c932fe4c7501ebd5ef43a9",
+                                                                      "file":  "raw/docs_agent_agents-window.md"
+                                                                  },
+                  "https://cursor.com/ru/docs/rules":  {
+                                                           "last_synced":  "2026-07-02",
+                                                           "sha256":  "d62095e615d0434109583033b160414d2cf48356cc5bf55dd4c57527c8f62163",
+                                                           "file":  "raw/ru_docs_rules.md"
+                                                       },
+                  "https://cursor.com/docs/cloud-agent/setup":  {
+                                                                    "last_synced":  "2026-07-02",
+                                                                    "sha256":  "04a946cd750762e27b44e7fc1fb2224fd9c9c7d2e368615a0dcade1abf9d0085",
+                                                                    "file":  "raw/docs_cloud-agent_setup.md"
+                                                                },
+                  "https://cursor.com/docs/agent/tools/search":  {
+                                                                     "last_synced":  "2026-07-02",
+                                                                     "sha256":  "f18774133c5a58f11328f96a484710894599f368b5e9d77b5e2011220676d1d0",
+                                                                     "file":  "raw/docs_agent_tools_search.md"
+                                                                 },
+                  "https://cursor.com/docs/account/teams/dashboard":  {
+                                                                          "last_synced":  "2026-07-02",
+                                                                          "sha256":  "0f15b43d6c68a53f3a5d1727a29921d46cdbae2ea8f37ca371eead2151d160cc",
+                                                                          "file":  "raw/docs_account_teams_dashboard.md"
+                                                                      },
+                  "https://cursor.com/ru/learn":  {
+                                                      "last_synced":  "2026-07-02",
+                                                      "sha256":  "25781a0e77c4508a5e836450d29dbdab86b0279abe569bcf93ed4d6ec09443d8",
+                                                      "file":  "raw/ru_learn.md"
+                                                  }
+              },
+    "last_full_sync":  "2026-07-02"
+}

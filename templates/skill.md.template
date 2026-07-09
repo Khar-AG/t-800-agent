@@ -1,0 +1,10 @@
+---
+name: {{SKILL_NAME}}
+description: >
+  {{SKILL_DESCRIPTION}}
+disable-model-invocation: true
+---
+
+# {{SKILL_TITLE}}
+
+{{SKILL_BODY}}

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "github_repo": "Khar-AG/t-800-agent",
+  "branch": "main",
+  "plugin_json_url": "https://raw.githubusercontent.com/Khar-AG/t-800-agent/main/.cursor-plugin/plugin.json",
+  "archive_zip_url": "https://github.com/Khar-AG/t-800-agent/archive/refs/heads/main.zip",
+  "releases_url": "https://github.com/Khar-AG/t-800-agent/releases",
+  "docs_url": "https://github.com/Khar-AG/t-800-agent#readme"
+}

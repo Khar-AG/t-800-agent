@@ -1,0 +1,91 @@
+---
+description: >
+  ОБЯЗАТЕЛЬНО: создание и правка субагентов, skills, commands, rules, hooks —
+  только через T-800 Agent (цех Skynet). Сначала intake? + scout + research DEEP +
+  brain-lead, затем t-800-factory. Не собирать артефакты ad-hoc в main chat.
+alwaysApply: true
+---
+
+# T-800 Agent — обязательная маршрутизация конвейера
+
+## Когда ВСЕГДА через T-800
+
+- Создать, изменить или удалить **субагента** (`agents/*.md`)
+- Создать или изменить **skill** (`.cursor/skills/`)
+- Создать или изменить **command** (`.cursor/commands/`)
+- Создать или изменить **rule** (`.cursor/rules/*.mdc`)
+- Создать или изменить **hook** (`hooks.json`, `.cursor/hooks/`)
+- Скрипты установки/валидации плагина (`scripts/register-agent.ps1` и т.д.)
+- Вопрос «как правильно в Cursor» при проектировании артефактов
+
+## Обязательная цепочка (v1.13 — отделы + loop + fix)
+
+```mermaid
+flowchart LR
+    task[Задача]
+    intake[intake?]
+    scout[scout]
+    research[research-lead]
+    craft[prompt-craft?]
+    brain[brain-lead]
+    factory[factory]
+    task --> intake --> scout --> research --> craft --> brain --> factory
+```
+
+**Директор** зовёт только лидов. Специалисты — **авто** внутри лида  
+(`shared/department-orchestration-contract.md`).
+
+1. intake-clarifier? → scout  
+2. **research-lead** → АВТО strategist → specialists → synthesizer  
+3. prompt-craft? (agent/skill/command)  
+4. **brain-lead** → АВТО 1–2 domain brains  
+5. **factory** → АВТО architect → … → auditor  
+
+**Правка существующего:** `/t800-fix` (fix-pack → SKIP/LIGHT → factory PATCH → `t800_run_gate.py`).  
+Контракт: `shared/fix-pipeline-contract.md`.
+
+Progress пользователю после каждого отдела. Context7 не always-on.  
+**Не плодить** новых research/brain агентов без отдельного решения.  
+**STATE.md** в `{memory_path}` + machine gate перед «готово» (`shared/loop-engineering-contract.md`, `scripts/t800_run_gate.py`).
+
+## Когда НЕ нужен полный пайплайн
+
+- Обычная разработка кода без новых Cursor-артефактов
+- `Task(t-800-operator)` — только если пользователь явно просит обучение новичка
+- **`/t800-plugin-audit`** — карта одного плагина (`Task(t-800-plugin-auditor)` + `t800_plugin_audit.py`), не factory
+- **`/t800-audit`** — bloat всей системы Cursor (`Task(t-800-system-auditor)`)
+- **`/t800-doctor`** — scripts-only здоровье (`t800_doctor.py`)
+- **`/t800-fix`** — узкий PATCH по pack (не полный DEEP `/t800-start`)
+
+## Вызов
+
+- **`/t800-bootstrap`** — первый запуск: аудит + глобальное правило **после согласия**
+- **`/t800-start`** — главная команда создания (бывший `/forge` и `/t-800`)
+- **`/t800-fix`** — правка по `{memory}/fix-packs/<slug>.md`
+- **`/t800-doctor`** — здоровье системы / плагина
+- `/t-800` — алиас на `/t800-start`
+- `/t-800-factory` — только конвейер (если brain уже дал контекст)
+- **`/t800-plugin-audit`** — inventory/graph/orphans → audits → опц. fix-pack
+- `/t800-audit` — разбор rules/skills всей системы Cursor
+
+## Память отдела
+
+**Сначала discovery** (`bash scripts/discover-target-project.sh --workspace "<ROOT>"`).
+
+Fragments и manifest пишутся в **memory_path целевого проекта** (не всегда `t-800-memory/`):
+
+- `{memory_path}/fragments/t-800-<agent>.md`
+- `{memory_path}/run-manifest.json`
+- `{memory_path}/factory-briefs/<slug>.yaml`
+- `{memory_path}/fix-packs/<slug>.md` — fix pipeline
+- `{memory_path}/STATE.md` — loop Last run / Gates
+- plugin-audit runtime: `{memory_path}/audits/<run-id>/` (`shared/plugin-audit-contract.md`)
+
+Контракт: `shared/project-memory-contract.md`
+
+## Плагин
+
+`~/.cursor/plugins/local/t-800-agent/`
+
+Реестр: `registry/agents-registry.json`  
+Контракты: `shared/t-800-*.md`, `shared/department-orchestration-contract.md`, `shared/loop-engineering-contract.md`, `shared/fix-pipeline-contract.md`, `shared/plugin-audit-contract.md`, `shared/search-strategy-contract.md`, `shared/deep-research-contract.md`, `shared/clawhub-research-contract.md`, `shared/vendor-docs-matrix.md`, `shared/research-docs-contract.md`, `shared/prompt-craft-contract.md`

@@ -1,0 +1,33 @@
+# Бриф конвейера — шаблон
+
+Заполняется после discovery (`scripts/discover-target-project.sh`).
+
+```yaml
+brief:
+  goal: "Создать/изменить субагента ..."
+  target_context:
+    workspace_root: "..."
+    plugin_root: "..."
+    memory_path: "..."
+    profile: teya-client | teya-plugin-dev | generic-plugin | self-t800
+    release_handoff: null | "/teya-release-sync"
+  artifact_type: subagent | skill | command | rule | hook | bundle
+  agent:
+    proposed_name: my-agent-name
+    readonly: true
+    category: scout | brains | factory | content | reviewer
+    role_one_liner: "..."
+    calls: []
+    called_by: ["t-800-factory"]
+  companions:
+    command: false
+    rule: false
+    skill: false
+  constraints: []
+  scout_report: {}
+  brain_brief: {}
+```
+
+Сохранять в: `{memory_path}/factory-briefs/<slug>.yaml`
+
+Контракты: `shared/project-discovery-contract.md`, `shared/target-plugin-profiles.md`

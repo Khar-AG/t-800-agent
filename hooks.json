@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "bash hooks/t-800-session-bootstrap.sh"
+      }
+    ]
+  }
+}

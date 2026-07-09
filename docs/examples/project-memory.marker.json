@@ -1,0 +1,6 @@
+{
+  "slug": "example-plugin",
+  "memory_dir": "example-plugin-memory",
+  "plugin_root": ".",
+  "release_handoff": null
+}

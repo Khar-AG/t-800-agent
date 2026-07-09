@@ -1,0 +1,123 @@
+# Тест-сценарии T-800 Agent
+
+Ручная проверка после `bash scripts/install-plugin.sh` (или `.ps1`) и перезапуска Cursor.
+
+**PASS install:** артефакты в `~/.cursor/plugins/local/t-800-agent/{agents,commands,rules,skills}` — **не** в `~/.cursor/agents` и т.п.
+
+## Подготовка
+
+1. `bash scripts/install-plugin.sh` (Windows: `.\scripts\install-plugin.ps1`)
+2. `bash scripts/verify-install.sh` — verification passed
+3. Перезапустить Cursor (Reload Window)
+4. Открыть любой тестовый проект
+
+---
+
+## Сценарий 1 — Первый запуск
+
+**Ввод пользователя:**
+```
+Я впервые в Cursor, что делать?
+```
+
+**Ожидание:**
+- Главный агент делегирует именно `Task(t-800-operator)` (rule routing)
+- Нельзя считать PASS, если главный агент просто отвечает «в стиле T-800 Agent»
+- Ответ: суть + шаги + ссылка на playbook `00-pervyy-raz.md`
+- Русский язык
+- Не более 7 шагов за раз
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
+## Сценарий 2 — Режимы Plan vs Agent
+
+**Ввод:**
+```
+Чем Plan отличается от Agent? Объясни как для новичка.
+```
+
+**Ожидание:**
+- Таблица или mermaid-схема выбора режима
+- Без правки файлов (t-800-operator readonly)
+- Ссылка на `knowledge-base/02-agent-i-rezhimy/rezhimy-tablica.md` или help
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
+## Сценарий 3 — Автоматизация
+
+**Ввод:**
+```
+Хочу автоматизировать публикации статей. С чего начать в Cursor?
+```
+
+**Ожидание:**
+- Playbook 01 (rule + skill + Auto-review)
+- **Не** рекомендует Run Everything
+- Пошаговый чеклист
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
+## Сценарий 4 — Другой язык
+
+**Ввод:**
+```
+Explain Agent mode in simple English.
+```
+
+**Ожидание:**
+- Ответ на английском
+- Предложение зафиксировать язык в user rules
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
+## Сценарий 5 — Опытный пользователь
+
+**Ввод:**
+```
+Рефакторинг модуля auth без объяснений, просто сделай.
+```
+
+**Ожидание:**
+- T-800 Agent **не** вызывается
+- Главный агент работает в Agent без обучающего тона
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
+## Проверка установки (автоматическая)
+
+| Файл | Путь | Проверено |
+|------|------|-----------|
+| Subagent | `%USERPROFILE%\.cursor\agents\t-800-operator.md` | PASS |
+| Legacy skill | `%USERPROFILE%\.cursor\skills\t-800-operator\SKILL.md` | MUST NOT EXIST |
+| Maintainer skill | `%USERPROFILE%\.cursor\skills\t-800-knowledge-base\SKILL.md` | PASS |
+| Rule | `%USERPROFILE%\.cursor\rules\t-800-operator-routing.mdc` | PASS |
+| Command | `%USERPROFILE%\.cursor\commands\t-800-operator.md` | PASS |
+| KB INDEX | `knowledge-base/INDEX.md` | PASS |
+| Playbook 00 | `playbooks/00-pervyy-raz.md` | PASS |
+| Sync report | `knowledge-base/SYNC-REPORT.md` | PASS |
+
+## Fallback (Cloud)
+
+Если `Task(t-800-operator)` недоступен:
+```
+Task(generalPurpose) + full prompt from agents/t-800-operator.md
+```
+
+## Проверка конфликта skill/subagent
+
+**Ожидание после установки:**
+
+- `%USERPROFILE%\.cursor\agents\t-800-operator.md` существует
+- `%USERPROFILE%\.cursor\skills\t-800-operator\SKILL.md` отсутствует
+- `%USERPROFILE%\.cursor\skills\t-800-knowledge-base\SKILL.md` существует
+- `/t-800-operator` не должен отвечать сам: он должен просить главный Agent вызвать `Task(t-800-operator)`

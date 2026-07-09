@@ -1,0 +1,59 @@
+---
+description: >
+  Обновление базы знаний T-800: когда появились новые функции Cursor,
+  устарел manifest (>30 дней), есть UPDATE-QUEUE.md с pending, пользователь
+  спрашивает про фичу которой нет в KB, или после changelog Cursor.
+  В проекте Cursor Junior делегируй обслуживание Task(t-800-maintainer).
+globs: knowledge-base/**,profiles/**,wizards/**,scripts/sync-docs.ps1,scripts/audit-coverage.ps1,scripts/fix-kb-frontmatter.ps1
+alwaysApply: false
+---
+
+# T-800 — обновление базы знаний
+
+Контракт: `shared/knowledge-update-contract.md`
+
+## Когда обновлять (триггеры)
+
+1. **Планово:** `manifest.json` → `last_full_sync` старше 30 дней
+2. **Событийно:** новый релиз / changelog Cursor, новая страница в docs
+3. **По запросу:** пользователь спрашивает про функцию, которой нет в `knowledge-base/INDEX.md`
+4. **После sync:** в `UPDATE-QUEUE.md` есть статусы `new` или `changed`
+
+## Алгоритм (в проекте Cursor Junior)
+
+0. Делегировать работу через `Task(t-800-maintainer)`, если нужно не просто ответить пользователю, а обновить KB
+1. Прочитать `knowledge-base/manifest.json` и `UPDATE-QUEUE.md`
+2. Запустить: `.\scripts\sync-docs.ps1` (PowerShell из корня репозитория)
+3. Запустить: `.\scripts\audit-coverage.ps1`
+4. Открыть `UPDATE-QUEUE.md` — обработать pending
+5. Для каждого изменения:
+   - Упростить текст для новичка (не копировать docs 1:1)
+   - Добавить: Простыми словами, Пошагово, Схема, Частые ошибки
+   - Обновить `last_synced` в frontmatter карточки
+6. Записать в `knowledge-base/CHANGELOG.md`
+7. Обновить `INDEX.md` / `glossarium.md` / `profiles/` / `wizards/` при новых сценариях
+8. `.\scripts\install-plugin.ps1` — синхронизировать глобальную установку
+9. `.\scripts\verify-install.ps1` — проверить, что subagent не превратился в skill
+
+## Для T-800 Operator (субагент, readonly)
+
+T-800 Operator **не запускает sync сам** в readonly-режиме. Он:
+
+- Проверяет дату `last_synced` карточки и `manifest.json`
+- Если данные старше 30 дней — предупреждает: «информация может быть устаревшей»
+- Если темы нет в KB — даёт официальную ссылку + совет обновить базу
+- Предлагает владельцу проекта: `/t-800-sync` или `.\scripts\sync-docs.ps1`
+
+## Запреты
+
+- Не перезаписывать упрощённые карточки сырым HTML из `raw/` без ревью
+- Не удалять ручные аналогии и mermaid при merge
+- Не коммитить секреты из docs
+
+## Команды
+
+- `.\scripts\sync-docs.ps1` — скачать и сравнить
+- `.\scripts\audit-coverage.ps1` — проверить покрытие manifest карточками
+- `.\scripts\fix-kb-frontmatter.ps1` — починить YAML frontmatter
+- `.\scripts\install-plugin.ps1` — обновить ~/.cursor/
+- `.\scripts\verify-install.ps1` — проверить установку

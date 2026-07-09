@@ -1,0 +1,25 @@
+{
+  "name": "t-800-agent",
+  "displayName": "T-800 Agent",
+  "description": "Цех Skynet для Cursor: /t800-update с GitHub, fix/doctor, plugin-audit, DEEP research, factory.",
+  "version": "1.14.0",
+  "keywords": [
+    "t-800",
+    "terminator",
+    "subagents",
+    "skills",
+    "rules",
+    "hooks",
+    "factory",
+    "skynet",
+    "documentation"
+  ],
+  "author": {
+    "name": "T-800 Agent"
+  },
+  "rules": "./rules/",
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "commands": "./commands/",
+  "hooks": "./hooks.json"
+}

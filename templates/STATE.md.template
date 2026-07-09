@@ -1,0 +1,44 @@
+# STATE — {{PROJECT_SLUG}}
+
+Рабочая память прогона T-800. Путь: `{memory_path}/STATE.md`.  
+Контракт: `shared/loop-engineering-contract.md`.
+
+## Last run
+
+- **Когда:** {{TIMESTAMP}}
+- **Команда:** —
+- **Research mode:** —
+- **Статус:** in_progress
+
+## In progress
+
+- init: STATE инициализирован
+
+## Completed
+
+<!-- YYYY-MM-DD HH:MM — этап — кратко -->
+
+## Blockers / Escalated
+
+<!-- пусто или: причина + что нужно от человека -->
+
+## Lessons
+
+<!-- что учесть в следующем прогоне -->
+
+## Stop conditions
+
+- Repair budget исчерпан (`max_repair_attempts = 2`)
+- Нет machine gate / скрипт недоступен
+- Архитектура / платежи — нужен человек
+- Пользователь сказал стоп
+
+## Gates
+
+| Gate | Результат |
+|------|-----------|
+| factory-auditor | n/a |
+| validate-agents | n/a |
+| audit-agent-graph | n/a |
+| verify-install | n/a |
+| plugin-audit inventory | n/a |

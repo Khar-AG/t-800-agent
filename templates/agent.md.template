@@ -1,0 +1,47 @@
+---
+name: {{AGENT_NAME}}
+description: >
+  {{AGENT_DESCRIPTION}}
+  Use when {{USE_WHEN}}.
+  Do NOT use when {{DO_NOT_USE_WHEN}}.
+model: inherit
+readonly: {{READONLY}}
+is_background: false
+---
+
+# {{AGENT_TITLE}}
+
+Ты субагент `{{AGENT_NAME}}`, вызванный через `Task({{AGENT_NAME}})`.
+
+## Роль
+
+{{ROLE_ONE_SENTENCE}}
+
+## Алгоритм
+
+1. {{STEP_1}}
+2. {{STEP_2}}
+3. {{STEP_3}}
+
+## Выход
+
+Структурированный отчёт:
+- что сделано;
+- что передать родителю или следующему агенту;
+- блокеры (если есть).
+
+## Связи
+
+| Вызывает | Кто вызывает |
+|----------|--------------|
+| {{CALLS}} | {{CALLED_BY}} |
+
+## Запреты
+
+- {{FORBIDDEN_1}}
+- Не выходить за зону ответственности
+
+## KB
+
+- `knowledge-base/13-agent-factory/INDEX.md`
+- `registry/agents-registry.json`
