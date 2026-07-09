@@ -82,7 +82,7 @@ check_exists "t800-audit command" "$CMDS/t800-audit.md" true "Task(t-800-system-
 check_exists "t800-plugin-audit command" "$CMDS/t800-plugin-audit.md" true "Task(t-800-plugin-auditor)"
 check_exists "t800-fix command" "$CMDS/t800-fix.md" true "t800_run_gate.py"
 check_exists "t800-doctor command" "$CMDS/t800-doctor.md" true "t800_doctor.py"
-check_exists "t800-update command" "$CMDS/t800-update.md" true "t800-update-from-github.sh"
+check_exists "t800-update command" "$CMDS/t800-update.md" true "t800-auto-version-check.sh"
 check_exists "t-800-system-auditor" "$AGENTS/t-800-system-auditor.md" true "name: t-800-system-auditor"
 check_exists "t-800-plugin-auditor" "$AGENTS/t-800-plugin-auditor.md" true "name: t-800-plugin-auditor"
 if [ -f "$PLUGIN/scripts/t800_plugin_audit.py" ]; then
@@ -141,10 +141,28 @@ else
   echo "FAIL t800-update-from-github.sh missing"
   failed=$((failed + 1))
 fi
+if [ -f "$PLUGIN/scripts/t800-auto-version-check.sh" ]; then
+  echo "OK   t800-auto-version-check.sh"
+else
+  echo "FAIL t800-auto-version-check.sh missing"
+  failed=$((failed + 1))
+fi
+if [ -f "$PLUGIN/shared/auto-update-contract.md" ]; then
+  echo "OK   auto-update-contract.md"
+else
+  echo "FAIL auto-update-contract.md missing"
+  failed=$((failed + 1))
+fi
 if [ -f "$PLUGIN/shared/release-channel.json" ]; then
   echo "OK   release-channel.json"
 else
   echo "FAIL release-channel.json missing"
+  failed=$((failed + 1))
+fi
+if [ -f "$PLUGIN/hooks/t-800-session-bootstrap.sh" ]; then
+  echo "OK   sessionStart hook script"
+else
+  echo "FAIL sessionStart hook script missing"
   failed=$((failed + 1))
 fi
 check_exists "t-800 legacy alias" "$CMDS/t-800.md" true "/t800-start"

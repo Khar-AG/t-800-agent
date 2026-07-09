@@ -66,9 +66,12 @@
 Команда: **`/t800-plugin-audit`** → при необходимости **`/t800-fix`**.
 
 ### Здоровье и обновление
+- **автопроверка версии** при каждом новом чате (`sessionStart` → GitHub → при необходимости установка);
 - **`/t800-doctor`** — быстрая диагностика установки;
-- **`/t800-update`** — сравнить версию с GitHub и обновиться;
+- **`/t800-update`** — ручное обновление с GitHub (если нужно сейчас);
 - **`/t800-bootstrap`** / **`/t800-onboard`** — первый запуск и обзор.
+
+После автообновления нужен **Reload Window**, затем агент продолжает исходную задачу.
 
 ---
 
@@ -85,7 +88,12 @@ bash scripts/verify-install.sh
 
 В Cursor: **Developer: Reload Window** → `/t800-bootstrap`
 
-### Обновление (без zip в чате)
+### Обновление
+
+**Автоматически:** при новом чате T-800 сам сверяет версию с GitHub и ставит обновление при необходимости.  
+После этого — **Reload Window**, и можно продолжать работу.
+
+**Вручную:**
 
 ```text
 /t800-update
@@ -97,13 +105,13 @@ bash scripts/verify-install.sh
 bash ~/.cursor/plugins/local/t-800-agent/scripts/t800-update-from-github.sh
 ```
 
-Скрипт читает версию с `main`, сравнивает с локальной и при отличии ставит новую. Затем снова **Reload Window**.
-
 Только проверка:
 
 ```bash
-bash ~/.cursor/plugins/local/t-800-agent/scripts/t800-update-from-github.sh --check
+bash ~/.cursor/plugins/local/t-800-agent/scripts/t800-auto-version-check.sh --check-only
 ```
+
+Отключить автообновление: `export T800_SKIP_AUTO_UPDATE=1`
 
 ---
 

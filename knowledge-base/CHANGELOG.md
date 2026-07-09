@@ -2,6 +2,13 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.15.0 — 2026-07-09
+
+- **Автопроверка версии** на `sessionStart`: `t800-auto-version-check.sh` + hook JSON `additional_context`
+- При новой версии на GitHub — автоустановка, затем Reload + продолжение задачи
+- Контракт: `shared/auto-update-contract.md`; TTL-кэш 6ч; `T800_SKIP_AUTO_UPDATE=1`
+- `/t800-update` — ручной fallback к автохуку
+
 ## 1.14.0 — 2026-07-09
 
 - Публичный GitHub: https://github.com/Khar-AG/t-800-agent

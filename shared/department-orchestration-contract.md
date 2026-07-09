@@ -177,7 +177,7 @@ progress:
 | `/t800-plugin-audit` | System | plugin-auditor + `t800_plugin_audit.py` (карта плагина → `{memory}/audits/`) → опц. `t800_audit_to_fixpack` |
 | `/t800-doctor` | System | `t800_doctor.py` (scripts-only; narrative onboard только по просьбе) |
 | `/t800-fix` | Research?→Brains→Factory | fix-pack → research SKIP/LIGHT → brain → factory **PATCH** → `t800_run_gate.py` |
-| `/t800-update` | System | `t800-update-from-github.sh` (сравнить версию → скачать `main`) |
+| `/t800-update` | System | ручной fallback; авто = `sessionStart` → `t800-auto-version-check.sh` |
 | `/t-800-operator` | System | operator |
 | `/t-800-health` | System | scripts health |
 | `/t800-start` | все 4 | полная цепочка выше (создание; правка → `/t800-fix`) |

@@ -1,8 +1,8 @@
 {
   "name": "t-800-agent",
   "displayName": "T-800 Agent",
-  "description": "Цех Skynet для Cursor: /t800-update с GitHub, fix/doctor, plugin-audit, DEEP research, factory.",
-  "version": "1.14.0",
+  "description": "Цех Skynet для Cursor: автопроверка версии при старте сессии, /t800-update, audit, factory.",
+  "version": "1.15.0",
   "keywords": [
     "t-800",
     "terminator",
