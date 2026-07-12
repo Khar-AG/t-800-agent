@@ -12,22 +12,52 @@ $pluginDest = Join-Path $env:USERPROFILE ".cursor\plugins\local\t-800-agent"
 
 $checks = New-Object System.Collections.Generic.List[object]
 
+function Get-DisplayPath([string]$Path) {
+    if ([string]::IsNullOrEmpty($Path)) { return $Path }
+    $normRoot = $root.TrimEnd('\', '/')
+    $normHome = $env:USERPROFILE.TrimEnd('\', '/')
+    if ($Path.StartsWith($normRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $rel = $Path.Substring($normRoot.Length).TrimStart('\', '/')
+        return ($rel -replace '\\', '/')
+    }
+    if ($Path.StartsWith($normHome, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $rel = $Path.Substring($normHome.Length).TrimStart('\', '/')
+        return ('~/' + ($rel -replace '\\', '/'))
+    }
+    return ($Path -replace '\\', '/')
+}
+
+function Sanitize-Details([string]$Details) {
+    if ([string]::IsNullOrEmpty($Details)) { return $Details }
+    $out = $Details
+    $normRoot = $root.TrimEnd('\', '/')
+    $normHome = $env:USERPROFILE.TrimEnd('\', '/')
+    if ($out.Contains($normRoot)) {
+        $out = $out.Replace($normRoot + '\', '').Replace($normRoot + '/', '').Replace($normRoot, '')
+    }
+    if ($out.Contains($normHome)) {
+        $out = $out.Replace($normHome + '\', '~/').Replace($normHome + '/', '~/').Replace($normHome, '~')
+    }
+    return ($out -replace '\\', '/')
+}
+
 function Add-Check($Name, $Status, $Details) {
     $script:checks.Add([ordered]@{
         name = $Name
         status = $Status
-        details = $Details
+        details = (Sanitize-Details $Details)
     }) | Out-Null
 }
 
 function Test-Marker($Name, $Path, $Marker, $ShouldExist = $true) {
     $exists = Test-Path $Path
+    $shown = Get-DisplayPath $Path
     if ($ShouldExist -and -not $exists) {
-        Add-Check $Name "FAIL" "Missing: $Path"
+        Add-Check $Name "FAIL" "Missing: $shown"
         return
     }
     if (-not $ShouldExist -and $exists) {
-        Add-Check $Name "FAIL" "Must be absent: $Path"
+        Add-Check $Name "FAIL" "Must be absent: $shown"
         return
     }
     if ($ShouldExist -and $Marker) {
@@ -37,7 +67,7 @@ function Test-Marker($Name, $Path, $Marker, $ShouldExist = $true) {
             return
         }
     }
-    Add-Check $Name "OK" $Path
+    Add-Check $Name "OK" $shown
 }
 
 Test-Marker "t-800-operator subagent" (Join-Path $root "agents\t-800-operator.md") "readonly: true" $true
@@ -47,7 +77,7 @@ Test-Marker "health command installed" (Join-Path $root "commands\t-800-health.m
 
 $mandatory = Join-Path $env:USERPROFILE ".cursor\rules\t-800-mandatory-routing.mdc"
 if (Test-Path $mandatory) {
-    Add-Check "global mandatory-routing" "OK" $mandatory
+    Add-Check "global mandatory-routing" "OK" (Get-DisplayPath $mandatory)
 }
 else {
     Add-Check "global mandatory-routing" "WARN" "отсутствует — /t800-bootstrap"
@@ -55,10 +85,10 @@ else {
 
 $pluginAgents = Join-Path $pluginDest "agents"
 if (Test-Path $pluginAgents) {
-    Add-Check "plugin dest agents" "OK" $pluginAgents
+    Add-Check "plugin dest agents" "OK" (Get-DisplayPath $pluginAgents)
 }
 else {
-    Add-Check "plugin dest agents" "WARN" "нет $pluginDest — запустите install-plugin.ps1"
+    Add-Check "plugin dest agents" "WARN" "нет $(Get-DisplayPath $pluginDest) — запустите install-plugin.ps1"
 }
 
 $userAgents = Join-Path $env:USERPROFILE ".cursor\agents"
@@ -185,7 +215,7 @@ Set-Content -LiteralPath $reportPath -Value $report -Encoding utf8
 foreach ($check in $checks) {
     Write-Host "$($check.status) $($check.name): $($check.details)"
 }
-Write-Host "Health report: $reportPath"
+Write-Host "Health report: $(Get-DisplayPath $reportPath)"
 
 if ($failed -gt 0) {
     exit 2

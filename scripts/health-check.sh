@@ -16,8 +16,27 @@ warned=0
 
 checks=()
 
+# Пути в отчёте — без абсолютных путей машины (плагин общий).
+display_path() {
+  local p="$1"
+  case "$p" in
+    "$ROOT"/*) printf '%s' "${p#"$ROOT"/}" ;;
+    "$HOME"/*) printf '~/%s' "${p#"$HOME"/}" ;;
+    *) printf '%s' "$p" ;;
+  esac
+}
+
+sanitize_details() {
+  local d="$1"
+  d="${d//"$ROOT/"/}"
+  d="${d//"$HOME/"/"~/"}"
+  printf '%s' "$d"
+}
+
 add_check() {
-  checks+=("$1|$2|$3")
+  local details
+  details="$(sanitize_details "$3")"
+  checks+=("$1|$2|$details")
   if [ "$2" = "FAIL" ]; then failed=$((failed + 1)); fi
   if [ "$2" = "WARN" ]; then warned=$((warned + 1)); fi
 }
@@ -26,17 +45,17 @@ test_marker() {
   local name="$1" path="$2" marker="$3" should="${4:-true}"
   if [ "$should" = "true" ]; then
     if [ ! -f "$path" ]; then
-      add_check "$name" "FAIL" "Missing: $path"
+      add_check "$name" "FAIL" "Missing: $(display_path "$path")"
       return
     fi
     if [ -n "$marker" ] && ! grep -qF "$marker" "$path" 2>/dev/null; then
       add_check "$name" "FAIL" "Missing marker: $marker"
       return
     fi
-    add_check "$name" "OK" "$path"
+    add_check "$name" "OK" "$(display_path "$path")"
   else
     if [ -f "$path" ]; then
-      add_check "$name" "FAIL" "Must be absent: $path"
+      add_check "$name" "FAIL" "Must be absent: $(display_path "$path")"
       return
     fi
     add_check "$name" "OK" "absent"
@@ -49,15 +68,15 @@ test_marker "maintainer skill disabled" "$ROOT/skills/t-800-knowledge-base/SKILL
 test_marker "health command installed" "$ROOT/commands/t-800-health.md" "health-check"
 
 if [ -f "$HOME/.cursor/rules/t-800-mandatory-routing.mdc" ]; then
-  add_check "global mandatory-routing" "OK" "$HOME/.cursor/rules/t-800-mandatory-routing.mdc"
+  add_check "global mandatory-routing" "OK" "$(display_path "$HOME/.cursor/rules/t-800-mandatory-routing.mdc")"
 else
   add_check "global mandatory-routing" "WARN" "отсутствует — /t800-bootstrap"
 fi
 
 if [ -d "$PLUGIN_DEST/agents" ]; then
-  add_check "plugin dest agents" "OK" "$PLUGIN_DEST/agents"
+  add_check "plugin dest agents" "OK" "$(display_path "$PLUGIN_DEST/agents")"
 else
-  add_check "plugin dest agents" "WARN" "нет $PLUGIN_DEST — запустите install-plugin.sh"
+  add_check "plugin dest agents" "WARN" "нет $(display_path "$PLUGIN_DEST") — запустите install-plugin.sh"
 fi
 
 if compgen -G "$HOME/.cursor/agents/t-800-*.md" >/dev/null 2>&1; then
@@ -148,7 +167,7 @@ for c in "${checks[@]}"; do
   IFS='|' read -r n s d <<< "$c"
   echo "$s $n: $d"
 done
-echo "Health report: $REPORT"
+echo "Health report: $(display_path "$REPORT")"
 
 [ "$failed" -gt 0 ] && exit 2
 exit 0
