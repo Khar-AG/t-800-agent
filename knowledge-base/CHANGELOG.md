@@ -2,6 +2,15 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.16.0 — 2026-07-13
+
+- **Отдел Cloud Hub Automation Setup** (6 агентов): `t-800-cloud-hub-lead` + analyst / prompt / pack / smoke + `t-800-cursor-kb-curator`
+- Команда **`/t800-cloud-hub`** (алиас `/t800-hub-setup`) — blank Hub + Client TZ-builder для Cursor Automations
+- Контракты: `shared/cloud-hub-setup-contract.md`, `shared/project-memory-dual-write-contract.md`
+- Rule: `rules/t-800-cloud-hub-routing.mdc` (не always-on)
+- Примеры паттернов: `docs/examples/cloud-hub/` (EXAMPLE only, без секретов)
+- README / инструкции обновлены; roster **42** Task-субагента
+
 ## 1.15.3 — 2026-07-12
 
 - `HEALTH-REPORT.md`: убраны абсолютные пути машины автора (плагин для команды)

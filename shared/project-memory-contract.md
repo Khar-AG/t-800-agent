@@ -73,6 +73,27 @@ bash scripts/init-project-memory.sh --workspace "<ROOT>" --slug "<slug>"
 
 Или спросить оператора: «Создать папку памяти `{slug}-memory/` для этого плагина?»
 
+## Cloud Hub artifacts
+
+Подпапка **`cloud-hub/`** живёт **внутри** канонического `memory_dir` профиля (таблица выше не меняется).
+
+Типичные файлы:
+
+| Файл | Назначение |
+|------|------------|
+| `hub-instructions.md` | Thin blank Hub Instructions |
+| `client-instructions.md` | Client TZ-builder Instructions |
+| `pack-schema.json` | Department schema Client→Hub |
+| `smoke-report.md` | Чеклист готовности |
+| `capability-map.md` | Карта умений checkout |
+
+Правила dual-write по профилю (куда писать, запрет duplicate roots, запрет client secrets в GitHub KB):  
+**`shared/project-memory-dual-write-contract.md`**.
+
+Закон **teya-client native-first** сохраняется: cloud-hub данные клиента — в `teya-memory/cloud-hub/`, **без** параллельной `t-800-memory/` в клиентском workspace.
+
+Операционный закон Hub+Client: `shared/cloud-hub-setup-contract.md`. Команда: `/t800-cloud-hub`.
+
 ## Связанные контракты Teya (живое чтение)
 
 При `profile` teya-* читать из `$TEYA_PLUGIN_ROOT/shared/`:

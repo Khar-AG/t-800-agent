@@ -1,6 +1,6 @@
-# T-800 Agent — реестр Task-субагентов (36)
+# T-800 Agent — реестр Task-субагентов (42)
 
-Плагин: **T-800 Agent** v1.13.0 — `/t800-fix` + `/t800-doctor` + `t800_run_gate.py` + fix-pack из audit + loop engineering + `/t800-plugin-audit` + DEEP research + factory (без новых leaf-агентов).
+Плагин: **T-800 Agent** v1.16.0 — `/t800-fix` + `/t800-doctor` + `t800_run_gate.py` + fix-pack из audit + loop engineering + `/t800-plugin-audit` + DEEP research + factory + `/t800-cloud-hub` (Cloud Hub Automation Setup).
 
 ## Сценарий старта (4 шага)
 
@@ -33,6 +33,7 @@ intake-clarifier?
 | **`/t800-fix`** | Правка по fix-pack (PATCH + run_gate) |
 | **`/t800-update`** | Обновить плагин с zip / папки |
 | `/t800-start` | Создать артефакт |
+| **`/t800-cloud-hub`** | Blank Hub + Client Automations setup (`/t800-hub-setup`) |
 | `/t-800-health` | Диагностика |
 
 ## Mentor / System
@@ -44,4 +45,15 @@ intake-clarifier?
 | `t-800-plugin-auditor` | Аудит одного plugin-root (inventory/graph/orphans) |
 | `t-800-operator` | Наставник Cursor |
 
-Полный roster research/brains/factory — `registry/agents-registry.json`.
+## Cloud Hub
+
+| Task | Роль |
+|------|------|
+| `t-800-cloud-hub-lead` | Оркестратор Hub+Client setup |
+| `t-800-cloud-hub-analyst` | Readonly capability map |
+| `t-800-cloud-hub-prompt` | Blank Hub + Client Instructions |
+| `t-800-cloud-hub-pack` | pack-schema / callback fields |
+| `t-800-cloud-hub-smoke` | Smoke checklist |
+| `t-800-cursor-kb-curator` | Cadence KB → maintainer |
+
+Полный roster research/brains/factory/cloud-hub — `registry/agents-registry.json`.

@@ -1,0 +1,20 @@
+---
+description: >
+  Маршрутизация Cloud Hub Automation Setup: при /t800-cloud-hub, /t800-hub-setup
+  или правках **/cloud-hub/** → Task(t-800-cloud-hub-lead). Не always-on.
+alwaysApply: false
+globs:
+  - "**/cloud-hub/**"
+  - "**/t-800-memory/cloud-hub/**"
+  - "**/*-memory/cloud-hub/**"
+---
+
+# Cloud Hub routing
+
+При команде `/t800-cloud-hub` / `/t800-hub-setup` или работе с артефактами `**/cloud-hub/**`:
+
+1. Делегируй **`Task(t-800-cloud-hub-lead)`** — не правь Hub/Client Instructions ad-hoc в main chat.
+2. Специалистов отдела не вызывай вручную.
+3. Углубление KB Cursor Automations → **`Task(t-800-cursor-kb-curator)`** (каденс), не эта команда и не этот rule на каждый setup.
+
+Контракты: `shared/cloud-hub-setup-contract.md`, `shared/project-memory-dual-write-contract.md`.

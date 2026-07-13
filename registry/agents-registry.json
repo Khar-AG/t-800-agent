@@ -1,7 +1,7 @@
 {
   "$schema": "./agents-registry.schema.json",
   "version": 2,
-  "updated": "2026-07-09",
+  "updated": "2026-07-13",
   "plugin": "t-800-agent",
   "categories": {
     "scout": "Разведывательный модуль (Recon)",
@@ -10,7 +10,8 @@
     "factory": "Сборочный конвейер артефактов",
     "mentor": "Оператор и онбординг новичков",
     "system": "Системный аудит плагинов и инфраструктуры Cursor",
-    "maintainer": "Синхронизатор памяти KB"
+    "maintainer": "Синхронизатор памяти KB",
+    "cloud-hub": "Cloud Hub / Client Automation Setup"
   },
   "agents": [
     {
@@ -20,7 +21,8 @@
       "readonly": true,
       "calls": [
         "t-800-maintainer",
-        "t-800-research-lead"
+        "t-800-research-lead",
+        "t-800-cursor-kb-curator"
       ],
       "calledBy": [
         "main-agent",
@@ -456,9 +458,84 @@
       "calls": [],
       "calledBy": [
         "main-agent",
-        "t-800-scout"
+        "t-800-scout",
+        "t-800-cursor-kb-curator"
       ],
       "description": "Sync KB из cursor.com"
+    },
+    {
+      "id": "t-800-cloud-hub-lead",
+      "file": "agents/t-800-cloud-hub-lead.md",
+      "category": "cloud-hub",
+      "readonly": false,
+      "calls": [
+        "t-800-cloud-hub-analyst",
+        "t-800-cloud-hub-prompt",
+        "t-800-cloud-hub-pack",
+        "t-800-cloud-hub-smoke"
+      ],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Оркестратор Blank Hub+Client setup; fan-out; materialize cloud-hub/*"
+    },
+    {
+      "id": "t-800-cloud-hub-analyst",
+      "file": "agents/t-800-cloud-hub-analyst.md",
+      "category": "cloud-hub",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "t-800-cloud-hub-lead"
+      ],
+      "description": "Readonly capability map: checkout + *-memory/"
+    },
+    {
+      "id": "t-800-cloud-hub-prompt",
+      "file": "agents/t-800-cloud-hub-prompt.md",
+      "category": "cloud-hub",
+      "readonly": false,
+      "calls": [],
+      "calledBy": [
+        "t-800-cloud-hub-lead"
+      ],
+      "description": "Blank Hub + Client TZ-builder Instructions (product-agnostic)"
+    },
+    {
+      "id": "t-800-cloud-hub-pack",
+      "file": "agents/t-800-cloud-hub-pack.md",
+      "category": "cloud-hub",
+      "readonly": false,
+      "calls": [],
+      "calledBy": [
+        "t-800-cloud-hub-lead"
+      ],
+      "description": "pack-schema / command_ref / callback fields"
+    },
+    {
+      "id": "t-800-cloud-hub-smoke",
+      "file": "agents/t-800-cloud-hub-smoke.md",
+      "category": "cloud-hub",
+      "readonly": false,
+      "calls": [],
+      "calledBy": [
+        "t-800-cloud-hub-lead"
+      ],
+      "description": "Smoke checklist ping→execute→callback + auth caveats"
+    },
+    {
+      "id": "t-800-cursor-kb-curator",
+      "file": "agents/t-800-cursor-kb-curator.md",
+      "category": "maintainer",
+      "readonly": false,
+      "calls": [
+        "t-800-maintainer"
+      ],
+      "calledBy": [
+        "main-agent",
+        "t-800-scout"
+      ],
+      "description": "Cadence KB: UPDATE-QUEUE → maintainer; deepen 10-cloud-automation"
     }
   ]
 }
