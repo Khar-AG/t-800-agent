@@ -1,6 +1,6 @@
 # T-800 Agent — реестр Task-субагентов (42)
 
-Плагин: **T-800 Agent** v1.16.0 — `/t800-fix` + `/t800-doctor` + `t800_run_gate.py` + fix-pack из audit + loop engineering + `/t800-plugin-audit` + DEEP research + factory + `/t800-cloud-hub` (Cloud Hub Automation Setup).
+Плагин: **T-800 Agent** v1.16.1 — `/t800-fix` + `/t800-doctor` + `t800_run_gate.py --strict-create` + factory-bypass gate + fix-pack из audit + loop engineering + `/t800-plugin-audit` + DEEP research + factory + `/t800-cloud-hub` (Cloud Hub Automation Setup).
 
 ## Сценарий старта (4 шага)
 

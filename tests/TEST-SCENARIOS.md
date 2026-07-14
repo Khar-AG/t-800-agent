@@ -93,6 +93,38 @@ Explain Agent mode in simple English.
 
 ---
 
+## Сценарий 6 — zen-intel-retro (factory bypass)
+
+**Контекст:** инцидент Zen Intel — agents/skills собраны в main chat без `Task(t-800-factory)`.
+
+**Проверка (machine, из `plugin_root` t-800-agent):**
+
+```bash
+# 1) Синтетика: «новый agent» без factory в manifest → FAIL
+python3 scripts/t800_factory_bypass_gate.py \
+  --plugin-root . \
+  --memory-path /tmp/t800-empty-memory-$$ \
+  --files agents/foo-scout.md
+# ожидание: exit 1, FAIL … без завершённого шага t-800-factory
+
+# 2) strict-create без factory step → FAIL (нужен memory с STATE.md, без factory completed)
+python3 scripts/t800_run_gate.py \
+  --memory-path "<memory_with_STATE_no_factory>" \
+  --strict-create
+# ожидание: exit 1
+
+# 3) Обычный код не блокируется hook (before-artifact-edit allow без WARN на src/*.py)
+```
+
+**Ожидание поведения Директора:**
+- Не `Write`/`StrReplace` в `agents/` · `skills/` · `commands/` · `rules/` · `hooks`
+- Только `/t800-start` или `/t800-fix` → `Task(t-800-factory)`
+- Plan с factory-brief → Implement по `shared/plan-to-factory-handoff-contract.md`
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
 ## Проверка установки (автоматическая)
 
 | Файл | Путь | Проверено |

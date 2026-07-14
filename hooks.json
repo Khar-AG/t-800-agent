@@ -6,6 +6,12 @@
         "command": "bash hooks/t-800-session-bootstrap.sh",
         "timeout": 120
       }
+    ],
+    "beforeFileEdit": [
+      {
+        "command": "bash hooks/before-artifact-edit.sh",
+        "timeout": 15
+      }
     ]
   }
 }

@@ -2,6 +2,15 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.16.1 — 2026-07-14
+
+- Защита от обхода factory (анти-паттерн Zen Intel): Plan→Implement только через `/t800-start` / `/t800-fix`
+- Контракт: `shared/plan-to-factory-handoff-contract.md`
+- BLOCKER в `rules/t-800-mandatory-routing.mdc`: запрет Write/StrReplace артефактов Cursor вне factory
+- Machine gates: `scripts/t800_factory_bypass_gate.py`, `t800_run_gate.py --strict-create`
+- Hook `beforeFileEdit` → `hooks/before-artifact-edit.sh` (v1: WARN, не hard-deny)
+- Тест-сценарий 6 в `tests/TEST-SCENARIOS.md`
+
 ## 1.16.0 — 2026-07-13
 
 - **Отдел Cloud Hub Automation Setup** (6 агентов): `t-800-cloud-hub-lead` + analyst / prompt / pack / smoke + `t-800-cursor-kb-curator`
