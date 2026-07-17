@@ -115,6 +115,18 @@ Prove считается закрытым только при golden exit 0 **и
 
 Схема урока: `shared/lesson-schema-contract.md`.
 
+## Lesson lifecycle (v1.1)
+
+Канон: `shared/lesson-schema-contract.md` (schema **1.1**).
+
+| Status | Queue | Approve / fixpack |
+|--------|-------|-------------------|
+| `open` (или поле отсутствует) | **Open** | HITL approve; fixpack только open+LOW |
+| `applied` | **Closed** | без action; после `/t800-fix` + `run_gate` PASS → `--mark-applied --applied-in` |
+| `rejected` | **Closed** | без action; HITL reject → `--mark-rejected --closed-reason` |
+
+Повторный `/t800-loop` на закрытых → пустой Open, approve не просят.
+
 ## Материализация queue
 
 **Prefer:** readonly conductor → JSON handoff →

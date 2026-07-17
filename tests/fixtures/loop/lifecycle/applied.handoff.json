@@ -1,0 +1,19 @@
+{
+  "run_id": "lifecycle-applied",
+  "status": "ready",
+  "summary": "applied via closed[]",
+  "items": [],
+  "closed": [
+    {
+      "id": "lesson-applied-1",
+      "status": "applied",
+      "risk_class": "LOW",
+      "symptom": "уже применён в 1.18.0",
+      "applied_in": "1.18.0",
+      "proposed_patch": {
+        "files": ["knowledge-base/CHANGELOG.md"],
+        "change": "docs"
+      }
+    }
+  ]
+}

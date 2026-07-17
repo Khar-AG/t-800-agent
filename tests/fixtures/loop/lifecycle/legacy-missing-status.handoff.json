@@ -1,0 +1,17 @@
+{
+  "run_id": "lifecycle-legacy",
+  "status": "ready",
+  "summary": "legacy missing status → open",
+  "items": [
+    {
+      "id": "lesson-legacy-1",
+      "risk_class": "LOW",
+      "symptom": "урок без поля status (schema 1.0)",
+      "proposed_patch": {
+        "files": ["README.md"],
+        "change": "typo fix"
+      },
+      "action": "HITL approve"
+    }
+  ]
+}

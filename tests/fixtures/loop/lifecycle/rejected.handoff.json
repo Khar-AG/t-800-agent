@@ -1,0 +1,18 @@
+{
+  "run_id": "lifecycle-rejected",
+  "status": "ready",
+  "summary": "rejected via items status",
+  "items": [
+    {
+      "id": "lesson-rejected-1",
+      "status": "rejected",
+      "risk_class": "HIGH",
+      "symptom": "HITL отклонил патч",
+      "closed_reason": "out of scope",
+      "proposed_patch": {
+        "files": ["agents/t-800-loop-conductor.md"],
+        "change": "do not flip readonly"
+      }
+    }
+  ]
+}

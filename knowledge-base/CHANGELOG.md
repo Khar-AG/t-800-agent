@@ -2,6 +2,13 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.18.0 — 2026-07-18
+
+- **Lesson Lifecycle v1.1** — `status`: open | applied | rejected (`shared/lesson-schema-contract.md`)
+- `loop-queue`: секции **Open** / **Closed**; conductor — open-only approve
+- `t800_lessons_to_fixpack.py`: generate только open+LOW; `--mark-applied` / `--mark-rejected`
+- Fixtures: `tests/fixtures/loop/lifecycle/` + classifier ignore status-полей
+
 ## 1.17.1 — 2026-07-17
 
 - **Target Knowledge Vault** — optional `knowledge_vault_path` в discovery/marker (runtime-only)

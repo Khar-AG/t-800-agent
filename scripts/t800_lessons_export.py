@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """t800_lessons_export.py — STATE Lessons + fragments → lessons.json (per run).
 
-Schema fields per lesson:
+Schema fields per lesson (v1.1):
   id, severity, class, agent_id, evidence[], symptom,
-  proposed_patch{files[], change}, risk_class (placeholder unset), recurrence_of
+  proposed_patch{files[], change}, risk_class (placeholder unset), recurrence_of,
+  status=open on new lessons (lifecycle: open|applied|rejected)
 
 Usage:
   python3 scripts/t800_lessons_export.py --memory-path PATH --run-id ID \\
@@ -24,7 +25,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"
 SCRIPT_DIR = Path(__file__).resolve().parent
 
 
@@ -74,6 +75,7 @@ def parse_state_lessons(text: str) -> list[dict[str, Any]]:
                 "proposed_patch": {"files": [], "change": ""},
                 "risk_class": "unset",
                 "recurrence_of": None,
+                "status": "open",
                 "source": "STATE.md",
             }
         )
@@ -108,6 +110,7 @@ def parse_fragment_lessons(path: Path) -> list[dict[str, Any]]:
                 "proposed_patch": {"files": [], "change": ""},
                 "risk_class": "unset",
                 "recurrence_of": None,
+                "status": "open",
                 "source": str(path),
             }
         )
@@ -141,6 +144,7 @@ def parse_fragment_lessons(path: Path) -> list[dict[str, Any]]:
                     },
                     "risk_class": "unset",
                     "recurrence_of": item.get("recurrence_of"),
+                    "status": str(item.get("status") or "open"),
                     "source": str(path),
                 }
             )

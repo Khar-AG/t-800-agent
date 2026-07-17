@@ -1,0 +1,18 @@
+{
+  "run_id": "lifecycle-open",
+  "status": "ready",
+  "summary": "open lesson with action",
+  "items": [
+    {
+      "id": "lesson-open-1",
+      "status": "open",
+      "risk_class": "LOW",
+      "symptom": "опечатка в CHANGELOG",
+      "proposed_patch": {
+        "files": ["knowledge-base/CHANGELOG.md"],
+        "change": "fix typo"
+      },
+      "action": "HITL approve → /t800-fix"
+    }
+  ]
+}

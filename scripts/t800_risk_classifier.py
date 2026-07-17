@@ -262,6 +262,7 @@ def match_low_rule(
 
 
 def classify(patch: dict[str, Any], memory_path: Path | None = None) -> dict[str, Any]:
+    # Lesson lifecycle fields (status / applied_in / closed_reason) ignored for classify.
     files = normalize_files(as_list(patch.get("files") or patch.get("paths") or []))
     text_parts = [
         str(patch.get("change") or ""),
@@ -323,6 +324,9 @@ def run_fixtures(fixture_dir: Path, memory_path: Path | None) -> dict[str, Any]:
         if p.is_file() and p.suffix == ".json" and p.name != "README.json":
             # skip expected-only wrappers named expected.json at top of subdirs? include all
             if p.name.endswith(".expected.json"):
+                continue
+            # queue handoff fixtures under lifecycle/ — not classifier patches
+            if "lifecycle" in p.parts:
                 continue
             cases.append(p)
 

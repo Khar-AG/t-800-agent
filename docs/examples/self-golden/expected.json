@@ -9,7 +9,7 @@
     },
     {
       "path": "scripts/t800_lessons_export.py",
-      "sha256": "97b51b206ca57d6cf8161d44ca6359d7d48fba1e952d05bd89d11f73e50c266b"
+      "sha256": "1cc94cf8468c5ed5ebe394028bc690e51ee949d96be9278f6bb2f8db2db1a2fd"
     },
     {
       "path": "scripts/t800_telemetry.py",
@@ -17,11 +17,11 @@
     },
     {
       "path": "scripts/t800_risk_classifier.py",
-      "sha256": "df7c0770f934d827519a63dd5822afbf107a913c502de4fd0629960257f9166e"
+      "sha256": "9ce7d14c5a2a673f6a3dcbe3e390ccf77054bde5c2b802c32796f323dc940319"
     },
     {
       "path": "scripts/t800_lessons_to_fixpack.py",
-      "sha256": "742ee4fa770322bc3ca4731ba8b8f64ada86dbe436b42efbed2917aa0fc726b2"
+      "sha256": "15f973cbd696b9e57643b0b18f9d7e41d2e4f68003d9ed81b4e7306c90775101"
     },
     {
       "path": "scripts/t800_golden_check.py",
@@ -37,11 +37,11 @@
     },
     {
       "path": "scripts/t800_loop_queue_write.py",
-      "sha256": "46725f0e0fd443bb2b2c10c20db1d095fbd4005de6694fbd3b31bd65bbb3d60e"
+      "sha256": "3d790ba4b5ed83e19543ccd2f2e14513dbb60bbc46e4106940e5ae9a2f032b42"
     },
     {
       "path": "templates/loop-policy.json.template",
-      "sha256": "bbd3a5c356cedfde9d77cbba68d83157be62919207a42c42a42d579a7d420971"
+      "sha256": "f0f686026d7127416d2ead28d27fd948ee2c7e664395e4c3452b50fb482ba155"
     },
     {
       "path": "templates/golden-expected.json.template",

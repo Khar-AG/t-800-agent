@@ -25,10 +25,10 @@ bash scripts/t800_loop_state.sh init --memory-path "<memory_path>"
 Путь: `{memory_path}/fix-packs/<slug>.md`  
 (шаблон: `templates/fix-pack.md.template`; из аудита: `scripts/t800_audit_to_fixpack.py`)
 
-**Batch из loop:** если есть `{memory_path}/loop-queue.md` (после `/t800-loop`) — возьми пункты очереди или сгенерируй packs:
+**Batch из loop:** если есть `{memory_path}/loop-queue.md` (после `/t800-loop`) — возьми пункты **Open** или сгенерируй packs (только `status=open` + LOW):
 
 ```bash
-python3 scripts/t800_lessons_to_fixpack.py --memory-path "<memory_path>" [--slug "<slug>"]
+python3 scripts/t800_lessons_to_fixpack.py --memory-path "<memory_path>" --lessons "<run_id|path>"
 ```
 
 Если pack нет — спроси slug / создай draft из аудита или queue, не угадывай `files[]`.
@@ -73,6 +73,24 @@ python3 scripts/t800_run_gate.py --memory-path "<memory_path>" \
 ```
 
 Exit ≠ 0 → не «готово»; repair ≤2 (`loop-engineering-contract`).
+
+### 5a. Lesson lifecycle — закрытие (loop packs)
+
+После **run_gate PASS** для pack из loop:
+
+```bash
+python3 scripts/t800_lessons_to_fixpack.py --memory-path "<memory_path>" --lessons "<run_id|path>" \
+  --mark-applied "<lesson_id>" --applied-in "<plugin_version>"
+```
+
+HITL **reject** (не применять pack):
+
+```bash
+python3 scripts/t800_lessons_to_fixpack.py --memory-path "<memory_path>" --lessons "<run_id|path>" \
+  --mark-rejected "<lesson_id>" --closed-reason "<причина>"
+```
+
+Generate пишет только open; закрытые → `skipped_closed`.
 
 ### 6. STATE
 

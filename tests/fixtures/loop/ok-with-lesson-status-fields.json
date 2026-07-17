@@ -1,0 +1,12 @@
+{
+  "id": "ok-with-lesson-status-fields",
+  "expect_risk_class": "LOW",
+  "note": "status/applied_in/closed_reason ignored for classify; docs-only stays LOW",
+  "patch": {
+    "files": ["knowledge-base/CHANGELOG.md"],
+    "change": "docs",
+    "status": "applied",
+    "applied_in": "1.18.0",
+    "closed_reason": "already shipped"
+  }
+}

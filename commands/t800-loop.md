@@ -4,7 +4,7 @@
 затем batch `/t800-fix` по fix-packs. **Не** автопродолжение через stop/followup.
 
 Контракт: `shared/loop-engineering-contract.md` (v2).  
-Схема lessons: `shared/lesson-schema-contract.md`.
+Схема lessons: `shared/lesson-schema-contract.md` (**v1.1** — status open|applied|rejected).
 
 ## 0. Discovery + pause
 
@@ -47,7 +47,13 @@ python3 scripts/t800_loop_queue_write.py --memory-path "<memory_path>"
 
 Путь: `{memory_path}/loop-queue.md`.
 
-## 3. Опционально — classify / fixpack (только LOW)
+**Open / Closed (Lesson Lifecycle v1.1):**
+
+- **Open** (`status=open` или поле отсутствует) — кандидаты на HITL **approve**
+- **Closed** (`applied` | `rejected`) — показать без action; **не** просить approve
+- Повторный `/t800-loop` при пустом Open → заглушка «нет открытых уроков», approve не просят
+
+## 3. Опционально — classify / fixpack (только LOW + open)
 
 Если lessons ещё без `risk_class` или нужен refresh:
 
@@ -55,13 +61,14 @@ python3 scripts/t800_loop_queue_write.py --memory-path "<memory_path>"
 python3 scripts/t800_risk_classifier.py --patch-file "<lesson.json>" --memory-path "<memory_path>"
 ```
 
-Для **LOW только** (после classifier, не LLM):
+Для **LOW AND open only** (после classifier, не LLM; schema v1.1):
 
 ```bash
 python3 scripts/t800_lessons_to_fixpack.py --memory-path "<memory_path>" --lessons "<run_id|path/to/lessons.json>"
 ```
 
-MEDIUM / HIGH / BLOCK_CANDIDATE — только после явного HITL, не silent batch.
+MEDIUM / HIGH / BLOCK_CANDIDATE и закрытые (`applied`/`rejected`) — не silent batch.  
+MEDIUM / HIGH / BLOCK_CANDIDATE — только после явного HITL.
 
 ## 4. Дальше — /t800-fix
 

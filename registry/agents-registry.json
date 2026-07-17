@@ -448,7 +448,7 @@
       "calledBy": [
         "main-agent"
       ],
-      "description": "Semi-manual loop: report/lessons → queue handoff; risk_class script-only; no stop/followup. Use when /t800-loop."
+      "description": "Semi-manual loop: report/lessons → queue handoff; open-only approve (open|absent→open; applied|rejected=Closed, no action); risk_class script-only; no stop/followup. Use when /t800-loop."
     },
     {
       "id": "t-800-operator",

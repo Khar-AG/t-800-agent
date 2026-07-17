@@ -186,6 +186,53 @@ python3 scripts/t800_kb_provenance_gate.py --fixture-dir tests/fixtures/kb-prove
 
 ---
 
+## Сценарий 9 — Lesson Lifecycle v1.1
+
+**Цель:** Open/Closed queue, open-only approve/fixpack, classifier игнорирует status-поля.
+
+```bash
+cd t-800-agent
+PLUGIN_ROOT="$(pwd)"
+TMP="$(mktemp -d)"
+
+# 1) open → ## Open + action
+python3 scripts/t800_loop_queue_write.py --memory-path "$TMP" \
+  --input tests/fixtures/loop/lifecycle/open.handoff.json --out "$TMP/open.md"
+grep -q '## Open' "$TMP/open.md" && grep -q 'action:' "$TMP/open.md"
+
+# 2) applied → ## Closed + applied_in, без action в Closed
+python3 scripts/t800_loop_queue_write.py --memory-path "$TMP" \
+  --input tests/fixtures/loop/lifecycle/applied.handoff.json --out "$TMP/applied.md"
+grep -q '## Closed' "$TMP/applied.md" && grep -q 'applied_in' "$TMP/applied.md"
+! grep -A20 '## Closed' "$TMP/applied.md" | grep -q 'action:'
+
+# 3) rejected → ## Closed + closed_reason
+python3 scripts/t800_loop_queue_write.py --memory-path "$TMP" \
+  --input tests/fixtures/loop/lifecycle/rejected.handoff.json --out "$TMP/rejected.md"
+grep -q 'closed_reason' "$TMP/rejected.md"
+grep -q '_нет открытых уроков_' "$TMP/rejected.md"
+
+# 4) legacy без status → Open
+python3 scripts/t800_loop_queue_write.py --memory-path "$TMP" \
+  --input tests/fixtures/loop/lifecycle/legacy-missing-status.handoff.json --out "$TMP/legacy.md"
+grep -q '## Open' "$TMP/legacy.md" && ! grep -q '_нет открытых уроков_' "$TMP/legacy.md"
+
+# 5) classifier: lifecycle/ skipped; status-fields fixture = LOW
+python3 scripts/t800_risk_classifier.py --fixture-dir tests/fixtures/loop
+# ожидание: exit 0; ok-with-lesson-status-fields → LOW
+
+rm -rf "$TMP"
+```
+
+**Ожидание:**
+- 4 lifecycle handoff кейса зелёные
+- повторный loop на applied|rejected → пустой Open, approve не просят
+- fixpack generate: только open; closed → `skipped_closed`
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
 ## Проверка установки (автоматическая)
 
 | Файл | Путь | Проверено |

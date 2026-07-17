@@ -4,11 +4,13 @@ description: >
   Проводит semi-manual Loop Engineering: читает report/lessons/telemetry
   целевого {memory_path}, сверяет risk_class только со скриптом-классификатором,
   формирует structured handoff для loop-queue (без прямой записи файлов).
-  Use when: пользователь запускает /t800-loop или просит обработать очередь
-  loop / lessons→fixpack batch после HITL.
-  Do NOT use when: нужен полный /t800-start CREATE; автопродолжение через
-  stop/followup; назначение risk_class LOW агентом; встраивание business
-  logic чужого плагина; правка agents/skills/rules руками вне factory.
+  Approve queue = только status=open (absent → open); Closed (applied|rejected)
+  без action — не просить approve. Use when: /t800-loop или lessons→fixpack
+  batch после HITL.
+  Do NOT use when: approve для applied/rejected; полный /t800-start CREATE;
+  автопродолжение stop/followup; назначение risk_class LOW агентом;
+  Write loop-queue; business logic чужого плагина; правка agents/skills/rules
+  вне factory.
 model: inherit
 readonly: true
 is_background: false
@@ -41,11 +43,12 @@ Semi-manual **loop conductor**: собираешь evidence из `{memory_path}`
 
 ## Алгоритм
 
-1. Сверь lessons со схемой (`id`, `severity`, `class`, `evidence`, `proposed_patch`…).
+1. Сверь lessons со схемой (`id`, `severity`, `class`, `evidence`, `proposed_patch`,
+   `status`…). Нормализуй `status`: absent / unknown → `open`.
 1a. При `knowledge_vault_path` ≠ null — сверь lessons с vault и заполни `recurrence_of`, если урок уже есть у цели; закон: `shared/project-memory-contract.md` (Target vault runtime-only).
 2. Для каждого lesson без `risk_class` / с `unset` — вызови classifier (script only).
-3. Собери handoff JSON: `run_id`, `summary`, `items[]` (id, risk_class, symptom,
-   proposed_patch, optional fix_pack path).
+3. Раздели: `items[]` = только `status=open` (с `action` для HITL approve);
+   `closed[]` = `applied` | `rejected` (без action). Пустой Open → **не** просить HITL approve.
 4. Верни JSON родителю. Родитель материализует:
 
 ```bash
@@ -55,7 +58,7 @@ python3 scripts/t800_loop_queue_write.py --memory-path "<memory_path>"
 
 5. Fragment: `{memory_path}/fragments/t-800-loop-conductor.md` — родитель/скрипт
    пишет; ты только текст fragment в выходе (readonly — **без** Write/StrReplace).
-6. Опционально в `next`: batch `/t800-fix` по `fix-packs/` после HITL.
+6. Опционально в `next`: batch `/t800-fix` по `fix-packs/` после HITL (только open+LOW).
 
 ## Выход
 
@@ -64,9 +67,12 @@ status: ok|paused|blocked
 queue_patch:
   run_id: "..."
   summary: "..."
-  items: []
+  items: []    # open only (+ action)
+  closed: []   # applied|rejected (no action)
 lessons_summary:
   count: 0
+  open_count: 0
+  closed_count: 0
   by_risk: {}
 next: "/t800-fix batch optional|none"
 fragment: "{memory_path}/fragments/t-800-loop-conductor.md"
