@@ -106,14 +106,14 @@
 | `/t800-update` | `t800-update-from-github.sh` | перезапись `~/.cursor/plugins/local/t-800-agent` |
 | `/t-800-factory` | только factory (если brain уже дал контекст) | как шаг 4 `/t800-start` |
 
-### 2.4 Пример реальных путей (self-t800 в этом workspace)
+### 2.4 Пример путей (self-t800 / marker — шаблон, без личных путей)
 
 | Ключ | Путь |
 |------|------|
-| workspace | `/Users/andrejharcenko/Desktop/Мои разработки на коде/Cursor/T-800 AGENT` |
-| plugin_root (dev) | `…/T-800 AGENT/t-800-agent` |
+| workspace | `~/Projects/T-800-AGENT` (локальный checkout; не коммитить абсолютный `/Users/...`) |
+| plugin_root (dev) | `{workspace}/t-800-agent` |
 | plugin_root (runtime Cursor) | `~/.cursor/plugins/local/t-800-agent` |
-| memory_path | `…/T-800 AGENT/t-800-memory` |
+| memory_path | `{workspace}/t-800-memory` |
 | profile | `self-t800` / marker (`project-memory.marker.json`) |
 
 ---
