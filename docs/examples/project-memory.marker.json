@@ -2,5 +2,6 @@
   "slug": "example-plugin",
   "memory_dir": "example-plugin-memory",
   "plugin_root": ".",
-  "release_handoff": null
+  "release_handoff": null,
+  "knowledge_vault_path": null
 }

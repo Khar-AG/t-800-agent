@@ -53,6 +53,7 @@ $checks = @(
     @{ Name = "t800_golden_check.py"; Path = Join-Path $plugin "scripts\t800_golden_check.py"; ShouldExist = $true; MustContain = $null },
     @{ Name = "t800-loop-dispatcher.sh"; Path = Join-Path $plugin "scripts\t800-loop-dispatcher.sh"; ShouldExist = $true; MustContain = $null },
     @{ Name = "t800_loop_queue_write.py"; Path = Join-Path $plugin "scripts\t800_loop_queue_write.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_kb_provenance_gate.py"; Path = Join-Path $plugin "scripts\t800_kb_provenance_gate.py"; ShouldExist = $true; MustContain = $null },
     @{ Name = "t-800 legacy alias"; Path = Join-Path $cmds "t-800.md"; ShouldExist = $true; MustContain = "/t800-start" },
     @{ Name = "legacy forge command absent"; Path = Join-Path $cmds "forge.md"; ShouldExist = $false; MustContain = $null },
     @{ Name = "local plugin"; Path = Join-Path $plugin ".cursor-plugin\plugin.json"; ShouldExist = $true; MustContain = "t-800-agent" }

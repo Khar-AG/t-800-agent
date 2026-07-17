@@ -28,6 +28,7 @@ memory_dir=""
 memory_path=""
 slug=""
 release_handoff="null"
+knowledge_vault_path="null"
 plugin_json=""
 artifact_surface="cursor-workspace"
 
@@ -41,6 +42,10 @@ while [[ "$search" != "/" ]]; do
     pr="$(python3 -c "import json; d=json.load(open('$marker')); print(d.get('plugin_root','.'))" 2>/dev/null || echo ".")"
     rh="$(python3 -c "import json; d=json.load(open('$marker')); print(d.get('release_handoff') or '')" 2>/dev/null || echo "")"
     if [[ -n "$rh" ]]; then release_handoff="\"$rh\""; fi
+    kvp="$(python3 -c "import json; d=json.load(open('$marker')); v=d.get('knowledge_vault_path'); print(v if isinstance(v,str) and v.strip() else '')" 2>/dev/null || echo "")"
+    if [[ -n "$kvp" ]]; then
+      knowledge_vault_path="\"$(python3 -c "from pathlib import Path; p=Path('''$kvp'''); print(p if p.is_absolute() else (Path('''$search''')/p).resolve())" 2>/dev/null || echo "$kvp")\""
+    fi
     if [[ "$pr" == "." ]]; then
       plugin_root="$search"
     else
@@ -192,6 +197,7 @@ cat <<EOF
   "slug": "${slug:-}",
   "artifact_surface": "$artifact_surface",
   "release_handoff": $release_handoff,
+  "knowledge_vault_path": $knowledge_vault_path,
   "needs_user_question": $needs_user_question
 }
 EOF

@@ -137,7 +137,8 @@ else
 fi
 for script in t800_run_gate.py t800_doctor.py t800_audit_to_fixpack.py \
   t800_run_report.py t800_lessons_export.py t800_telemetry.py t800_risk_classifier.py \
-  t800_lessons_to_fixpack.py t800_golden_check.py t800-loop-dispatcher.sh t800_loop_queue_write.py; do
+  t800_lessons_to_fixpack.py t800_golden_check.py t800-loop-dispatcher.sh t800_loop_queue_write.py \
+  t800_kb_provenance_gate.py; do
   if [ -f "$PLUGIN/scripts/$script" ]; then
     echo "OK   $script"
   else

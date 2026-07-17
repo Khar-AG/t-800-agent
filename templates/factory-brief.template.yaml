@@ -11,6 +11,7 @@ brief:
     memory_path: "..."
     profile: teya-client | teya-plugin-dev | generic-plugin | self-t800
     release_handoff: null | "/teya-release-sync"
+    knowledge_vault_path: null
   artifact_type: subagent | skill | command | rule | hook | bundle
   agent:
     proposed_name: my-agent-name

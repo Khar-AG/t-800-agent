@@ -35,6 +35,7 @@ is_background: false
 
 1. Прочитай вход: `scout_report`, `research_brief` (+ `synthesis`), `prompt_spec?`, `target_context`
 2. `list-target-plugins` / discovery при необходимости → `target_context`
+2a. При `knowledge_vault_path` ≠ null — прочитай релевантные заметки vault (learnings по agent_id/категории) перед brief_for_factory; закон: `shared/project-memory-contract.md` (Target vault runtime-only).
 3. По `recommended_artifact` / теме — **авто** выбери 1–2 domain → `Task(...)`
 4. Если profile teya-* → обязательно `Task(t-800-brain-teya)`
 5. Сверь research с KB; `manifest.json` stale > 30 дней → `stale_warnings`

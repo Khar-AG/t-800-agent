@@ -159,6 +159,33 @@ python3 scripts/t800_golden_check.py --expected docs/examples/self-golden/expect
 
 ---
 
+## Сценарий 8 — KB provenance gate
+
+**Цель:** machine gate не пускает orphan-файлы в `knowledge-base/` без manifest или manual provenance.
+
+```bash
+cd t-800-agent
+python3 -m py_compile scripts/t800_kb_provenance_gate.py
+
+python3 scripts/t800_kb_provenance_gate.py --fixture-dir tests/fixtures/kb-provenance/legal-sync
+# ожидание: exit 0
+
+python3 scripts/t800_kb_provenance_gate.py --fixture-dir tests/fixtures/kb-provenance/legal-manual
+# ожидание: exit 0
+
+python3 scripts/t800_kb_provenance_gate.py --fixture-dir tests/fixtures/kb-provenance/illegal-orphan
+# ожидание: exit 1 + violations в JSON
+```
+
+**Ожидание:**
+- legal-sync / legal-manual → exit 0
+- illegal-orphan → exit 1
+- `verify-install` lists `t800_kb_provenance_gate.py`
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
 ## Проверка установки (автоматическая)
 
 | Файл | Путь | Проверено |

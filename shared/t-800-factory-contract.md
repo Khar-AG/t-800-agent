@@ -56,3 +56,4 @@ handoff:
 - Не пропускать auditor перед финальным отчётом пользователю
 - Не менять `name` после builder без повторного architect
 - Не добавлять в registry без существующего файла
+- **Target vault runtime-only** (`knowledge_vault_path`): читать можно (architect / brain-lead / research LIGHT / loop-conductor); **запрещено** копировать содержимое vault в `agents/`, `skills/`, `knowledge-base/`, `shared/`, `commands/` плагина — цитаты только в `{memory}` целевого проекта (`brief_for_factory`, fragments, loop-queue). Закон: `shared/project-memory-contract.md`

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "pages": {
+    "https://example.local/note": {
+      "last_synced": "2026-07-17",
+      "file": "note.md"
+    }
+  }
+}

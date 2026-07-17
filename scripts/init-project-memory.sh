@@ -64,7 +64,8 @@ if [[ ! -f "$marker" ]]; then
   "slug": "$SLUG",
   "memory_dir": "$MEMORY_DIR",
   "plugin_root": ".",
-  "release_handoff": null
+  "release_handoff": null,
+  "knowledge_vault_path": null
 }
 EOF
 fi

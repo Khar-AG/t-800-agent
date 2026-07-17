@@ -42,6 +42,7 @@ Semi-manual **loop conductor**: собираешь evidence из `{memory_path}`
 ## Алгоритм
 
 1. Сверь lessons со схемой (`id`, `severity`, `class`, `evidence`, `proposed_patch`…).
+1a. При `knowledge_vault_path` ≠ null — сверь lessons с vault и заполни `recurrence_of`, если урок уже есть у цели; закон: `shared/project-memory-contract.md` (Target vault runtime-only).
 2. Для каждого lesson без `risk_class` / с `unset` — вызови classifier (script only).
 3. Собери handoff JSON: `run_id`, `summary`, `items[]` (id, risk_class, symptom,
    proposed_patch, optional fix_pack path).

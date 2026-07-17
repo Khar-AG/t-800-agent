@@ -1,0 +1,5 @@
+{
+  "mode": "files",
+  "changed": ["knowledge-base/note.md"],
+  "expect_exit": 0
+}

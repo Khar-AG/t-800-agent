@@ -87,6 +87,19 @@ bash scripts/init-project-memory.sh --workspace "<ROOT>" --slug "<slug>"
 
 Или спросить оператора: «Создать папку памяти `{slug}-memory/` для этого плагина?»
 
+## Optional: knowledge_vault_path (marker / policy)
+
+| Поле | Назначение |
+|------|------------|
+| `knowledge_vault_path` | **Optional.** Absolute path **или** relative от workspace root → Obsidian-style vault целевого проекта (frontmatter-заметки: learnings, proposals, canon). |
+
+- В marker/policy: optional; отсутствует или `null` → discovery emit `null`.
+- Relative → resolve к absolute от workspace root; absolute → как есть.
+
+**Норма — Target vault runtime-only.** Читать можно: brain-lead, research (LIGHT), loop-conductor, factory architect.  
+**Запрещено:** копировать содержимое vault в `agents/`, `skills/`, `knowledge-base/`, `shared/`, `commands/` плагина.  
+Цитаты и выжимки живут только в `{memory}` целевого проекта (`brief_for_factory`, fragments, loop-queue).
+
 ## Cloud Hub artifacts
 
 Подпапка **`cloud-hub/`** живёт **внутри** канонического `memory_dir` профиля (таблица выше не меняется).
