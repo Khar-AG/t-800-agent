@@ -2,6 +2,13 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.17.1 — 2026-07-17
+
+- **Target Knowledge Vault** — optional `knowledge_vault_path` в discovery/marker (runtime-only)
+- Machine gate: `scripts/t800_kb_provenance_gate.py` (manifest pages[] или YAML frontmatter provenance: manual)
+- Контракты: runtime-only forbid в `shared/project-memory-contract.md` + инлайн в `shared/project-discovery-contract.md`
+- Релизная гигиена acceptance: version bump + CHANGELOG (этот PATCH)
+
 ## 1.17.0 — 2026-07-17
 
 - **Loop Engineering v2** — semi-manual закрытие прогона: report → lessons → queue handoff

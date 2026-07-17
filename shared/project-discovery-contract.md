@@ -48,7 +48,7 @@ project-memory.marker.json
 | `memory_dir` | Папка памяти относительно workspace |
 | `plugin_root` | `.` или подпапка с `.cursor-plugin/plugin.json` |
 | `release_handoff` | Команда release (например `/teya-release-sync`) или null |
-| `knowledge_vault_path` | Optional. Absolute path **или** relative от workspace root → target vault (Obsidian-style). `null` / отсутствует → discovery emit `null`. Relative → absolute от workspace root. Семантика runtime-only: `shared/project-memory-contract.md` |
+| `knowledge_vault_path` | Optional. Absolute path **или** relative от workspace root → target vault (Obsidian-style). `null` / отсутствует → discovery emit `null`. Relative → absolute от workspace root. **Target vault runtime-only:** читать можно; **forbid** копировать содержимое vault в `agents/`, `skills/`, `knowledge-base/`, `shared/`, `commands/` плагина. Полный закон: `shared/project-memory-contract.md`. |
 
 T-800 **не создаёт** marker в чужих проектах без запроса. Для нового плагина — `bash scripts/init-project-memory.sh`.
 

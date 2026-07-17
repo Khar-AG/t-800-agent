@@ -2,7 +2,7 @@
   "name": "t-800-agent",
   "displayName": "T-800 Agent",
   "description": "Цех Skynet для Cursor: /t800-start, /t800-loop, audit, Cloud Hub Automations, factory субагентов и skills.",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "keywords": [
     "t-800",
     "terminator",
