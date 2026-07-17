@@ -1,0 +1,15 @@
+{
+  "id": "trap-four-files-docs-claim",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: >3 files claiming docs",
+  "patch": {
+    "files": [
+      "docs/a.md",
+      "docs/b.md",
+      "docs/c.md",
+      "agents/t-800-scout.md"
+    ],
+    "change": "docs-only changelog sync",
+    "kind": "docs"
+  }
+}

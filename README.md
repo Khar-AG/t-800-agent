@@ -44,6 +44,7 @@
 |--------|---------|
 | Создать skill / агента / команду / rule / hook | `/t800-start` |
 | Точечно поправить по списку файлов | `/t800-fix` |
+| Закрыть прогон: report / lessons / queue | `/t800-loop` |
 | Проверить свой Cursor на лишнее | `/t800-audit` |
 | Разобрать один плагин (карта + orphans) | `/t800-plugin-audit` |
 | Настроить Blank Hub + Client Automations | `/t800-cloud-hub` |
@@ -83,6 +84,10 @@
 ### Здоровье
 `/t800-doctor` — scripts-only: версия, memory, STATE, counts.  
 Автопроверка версии при **новом чате** (см. [Обновление](#обновление)).
+
+### Loop Engineering v2
+После `/t800-start` / крупного прогона — **`/t800-loop`**: run report, экспорт lessons, очередь handoff (`loop-queue.md`).  
+`risk_class` считает только скрипт-классификатор; pause через `.loop-paused`. Batch из queue → `/t800-fix` (`t800_lessons_to_fixpack.py`).
 
 ### Защита factory (не обходить конвейер)
 Артефакты Cursor (`agents/`, skills, commands, rules, hooks) — только через `/t800-start` или `/t800-fix` → `Task(t-800-factory)`.  
@@ -214,6 +219,7 @@ bash ~/.cursor/plugins/local/t-800-agent/scripts/t800-update-from-github.sh
 |---------|------------|--------|
 | **`/t800-start`** | Полный конвейер: research → brain → factory | Создать skill, агента, команду, rule, hook |
 | **`/t800-fix`** | Узкий PATCH по fix-pack | Поправить 1–N файлов после аудита |
+| **`/t800-loop`** | Loop v2: report → lessons → queue | Закрыть прогон / handoff в fix |
 | **`/t800-audit`** | Аудит всей системы Cursor | Лишние rules/skills, раздутый контекст |
 | **`/t800-plugin-audit`** | Аудит одного плагина | Карта, orphans, alwaysApply |
 | **`/t800-doctor`** | Быстрый health-отчёт | «Всё ли установлено» |

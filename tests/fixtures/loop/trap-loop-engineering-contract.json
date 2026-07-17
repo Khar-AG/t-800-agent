@@ -1,0 +1,10 @@
+{
+  "id": "trap-loop-engineering-contract",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: loop-engineering-contract edit",
+  "patch": {
+    "files": ["shared/loop-engineering-contract.md"],
+    "change": "typo in Prove phase heading",
+    "kind": "typo"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "ok-low-description-sync",
+  "expect_risk_class": "LOW",
+  "note": "Genuine LOW: single agent description sync",
+  "patch": {
+    "files": ["agents/t-800-scout.md"],
+    "change": "description sync — Use when / Do NOT lines only",
+    "kind": "description_sync"
+  }
+}

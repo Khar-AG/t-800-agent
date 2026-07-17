@@ -1,0 +1,12 @@
+{
+  "id": "trap-readonly-flip",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: readonly change on leaf agent",
+  "patch": {
+    "files": ["agents/t-800-loop-conductor.md"],
+    "change": "flip readonly to false for convenience",
+    "kind": "leaf_edit",
+    "touches_readonly": true,
+    "flags": ["readonly_change"]
+  }
+}

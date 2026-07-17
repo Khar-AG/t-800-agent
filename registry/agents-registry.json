@@ -1,7 +1,7 @@
 {
   "$schema": "./agents-registry.schema.json",
   "version": 2,
-  "updated": "2026-07-13",
+  "updated": "2026-07-17",
   "plugin": "t-800-agent",
   "categories": {
     "scout": "Разведывательный модуль (Recon)",
@@ -438,6 +438,17 @@
         "main-agent"
       ],
       "description": "Аудит одного плагина: inventory/graph/orphans/alwaysApply → {memory}/audits/"
+    },
+    {
+      "id": "t-800-loop-conductor",
+      "file": "agents/t-800-loop-conductor.md",
+      "category": "system",
+      "readonly": true,
+      "calls": [],
+      "calledBy": [
+        "main-agent"
+      ],
+      "description": "Semi-manual loop: report/lessons → queue handoff; risk_class script-only; no stop/followup. Use when /t800-loop."
     },
     {
       "id": "t-800-operator",

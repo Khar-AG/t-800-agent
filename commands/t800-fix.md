@@ -25,7 +25,13 @@ bash scripts/t800_loop_state.sh init --memory-path "<memory_path>"
 Путь: `{memory_path}/fix-packs/<slug>.md`  
 (шаблон: `templates/fix-pack.md.template`; из аудита: `scripts/t800_audit_to_fixpack.py`)
 
-Если pack нет — спроси slug / создай draft из аудита, не угадывай `files[]`.
+**Batch из loop:** если есть `{memory_path}/loop-queue.md` (после `/t800-loop`) — возьми пункты очереди или сгенерируй packs:
+
+```bash
+python3 scripts/t800_lessons_to_fixpack.py --memory-path "<memory_path>" [--slug "<slug>"]
+```
+
+Если pack нет — спроси slug / создай draft из аудита или queue, не угадывай `files[]`.
 
 ### 2. Research (SKIP | LIGHT)
 
@@ -90,5 +96,6 @@ bash scripts/t800_loop_state.sh touch --memory-path "<memory_path>" --stage "fix
 | Команда | Когда |
 |---------|--------|
 | `/t800-plugin-audit` | сначала карта → `t800_audit_to_fixpack` |
+| `/t800-loop` | lessons / `loop-queue.md` → `t800_lessons_to_fixpack` → этот PATCH |
 | `/t800-start` | нет pack / новое с нуля |
 | `/t800-doctor` | проверить здоровье до/после |

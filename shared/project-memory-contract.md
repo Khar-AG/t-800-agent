@@ -31,8 +31,15 @@ Teya реализовала память в двух слоях:
 | Manifest прогона | `{memory}/run-manifest.json` | Каждый `/t800-start` |
 | Fragment этапа | `{memory}/fragments/t-800-<agent>.md` | После каждого Task factory |
 | Audit отдела | `{memory}/audits/t-800-<topic>.md` | По запросу (readonly study) |
+| Fix-pack | `{memory}/fix-packs/<slug>.md` | `/t800-fix`; из audit или lessons (`t800_lessons_to_fixpack.py`) |
+| Run reports | `{memory}/runs/` | `/t800-loop` → `t800_run_report.py` |
+| Telemetry | `{memory}/telemetry/` | `/t800-loop` → `t800_telemetry.py` |
+| Loop queue | `{memory}/loop-queue.md` | Handoff lessons → fix; `t800_loop_queue_write.py` |
+| Loop pause | `{memory}/.loop-paused` | Dispatcher skip (touch/rm) |
+| Golden | `{memory}/golden/` | Self-golden / classifier fixtures cache |
+| Session notice | `{memory}/loop/` | Notice для sessionStart (dispatcher) |
 
-Шаблон STATE: `templates/STATE.md.template`. Скрипт: `scripts/t800_loop_state.sh`. Контракт: `shared/loop-engineering-contract.md`.
+Шаблон STATE: `templates/STATE.md.template`. Скрипт: `scripts/t800_loop_state.sh`. Контракт: `shared/loop-engineering-contract.md` (+ `shared/lesson-schema-contract.md`).
 
 Префикс `t-800-` в fragments — **маркер отдела**, не целевого плагина. Целевой плагин (Teya) сохраняет свои имена (`teya-*`, `aura-*`).
 
@@ -43,8 +50,15 @@ Teya реализовала память в двух слоях:
 ├── STATE.md           # loop: Last run / In progress / Gates
 ├── run-manifest.json
 ├── factory-briefs/
+├── fix-packs/         # PATCH + lessons→fixpack
 ├── fragments/
 ├── audits/            # опционально
+├── runs/              # Loop Engineering v2 reports
+├── telemetry/         # loop metrics
+├── loop/              # session-notice
+├── golden/            # classifier / self-golden
+├── loop-queue.md      # handoff queue
+├── .loop-paused       # optional pause flag
 └── README.md          # создаёт init-project-memory.sh
 ```
 

@@ -1,0 +1,10 @@
+{
+  "id": "ok-low-changelog",
+  "expect_risk_class": "LOW",
+  "note": "Genuine LOW: CHANGELOG only",
+  "patch": {
+    "files": ["knowledge-base/CHANGELOG.md"],
+    "change": "add release notes line",
+    "kind": "docs"
+  }
+}

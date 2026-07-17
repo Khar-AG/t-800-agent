@@ -1,0 +1,10 @@
+{
+  "id": "ok-low-link-contract",
+  "expect_risk_class": "LOW",
+  "note": "Genuine LOW: link to existing non-orch shared contract in docs",
+  "patch": {
+    "files": ["docs/T-800-AGENTS.md"],
+    "change": "see also shared/fix-pipeline-contract.md link",
+    "kind": "link_contract"
+  }
+}

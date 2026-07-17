@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "description": "Golden expected — paths + optional sha256 relative to root",
+  "root": ".",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "REPLACE_WITH_SHA256"
+    },
+    {
+      "path": "docs/examples/self-golden/README.md"
+    }
+  ]
+}

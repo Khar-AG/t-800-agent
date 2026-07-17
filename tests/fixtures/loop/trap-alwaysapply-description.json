@@ -1,0 +1,10 @@
+{
+  "id": "trap-alwaysapply-description",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: alwaysApply rule change",
+  "patch": {
+    "files": ["rules/t-800-mandatory-routing.mdc"],
+    "change": "description sync + alwaysApply: true keep",
+    "kind": "description_sync"
+  }
+}

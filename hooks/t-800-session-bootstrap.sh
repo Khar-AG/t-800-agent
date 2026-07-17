@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # T-800 Agent — sessionStart hook
 # 1) Автопроверка версии с GitHub (при необходимости — установка)
-# 2) Подсказка bootstrap при первом запуске
+# 2) Loop dispatcher observe (fail-open) — bootstrap_invoke, НЕ второй sessionStart
+# 3) Подсказка bootstrap при первом запуске
 # stdout: JSON для Cursor (additional_context / env). Логи — только в файл/stderr.
 set -u
 
@@ -36,6 +37,23 @@ if [[ -f "$CHECK_SH" ]]; then
   fi
 else
   echo "$(date '+%Y-%m-%d %H:%M:%S') sessionStart missing auto-version-check" >>"$LOG" 2>/dev/null || true
+fi
+
+# Loop dispatcher (observe FS, fail-open) — AFTER auto-update; stdout → log only
+# Composition: bootstrap_invoke (hooks.json остаётся с ОДНИМ sessionStart).
+# .loop-paused и discovery memory_path — ответственность dispatcher (child).
+DISPATCHER="${PLUGIN}/scripts/t800-loop-dispatcher.sh"
+if [[ ! -f "$DISPATCHER" ]]; then
+  DISPATCHER="$(cd "$HERE/.." && pwd)/scripts/t800-loop-dispatcher.sh"
+fi
+if [[ -f "$DISPATCHER" ]]; then
+  if ! bash "$DISPATCHER" >>"$LOG" 2>&1; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') sessionStart loop-dispatcher fail-open (non-zero)" >>"$LOG" 2>/dev/null || true
+  else
+    echo "$(date '+%Y-%m-%d %H:%M:%S') sessionStart loop-dispatcher ok" >>"$LOG" 2>/dev/null || true
+  fi
+else
+  echo "$(date '+%Y-%m-%d %H:%M:%S') sessionStart loop-dispatcher missing (skip)" >>"$LOG" 2>/dev/null || true
 fi
 
 # First-run bootstrap hint

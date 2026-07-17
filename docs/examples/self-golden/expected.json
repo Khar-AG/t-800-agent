@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "description": "Self-golden for Loop Engineering v2 scripts",
+  "root": ".",
+  "files": [
+    {
+      "path": "scripts/t800_run_report.py",
+      "sha256": "427cab4701d22837d21262b9c4ddef5b39dccd3754a0fce6274a58d83d48c849"
+    },
+    {
+      "path": "scripts/t800_lessons_export.py",
+      "sha256": "97b51b206ca57d6cf8161d44ca6359d7d48fba1e952d05bd89d11f73e50c266b"
+    },
+    {
+      "path": "scripts/t800_telemetry.py",
+      "sha256": "e624912b498fc5b5e8f0169f0209b90e182d509b8887a794f51263e1bf15ca08"
+    },
+    {
+      "path": "scripts/t800_risk_classifier.py",
+      "sha256": "df7c0770f934d827519a63dd5822afbf107a913c502de4fd0629960257f9166e"
+    },
+    {
+      "path": "scripts/t800_lessons_to_fixpack.py",
+      "sha256": "742ee4fa770322bc3ca4731ba8b8f64ada86dbe436b42efbed2917aa0fc726b2"
+    },
+    {
+      "path": "scripts/t800_golden_check.py",
+      "sha256": "03c5959098e498b094f4a2ff2794e6f8cac7a470e5601d8022f5333c3ff4fe33"
+    },
+    {
+      "path": "scripts/t800-loop-dispatcher.sh",
+      "sha256": "174df4182814a58bb9bc7320eb454f830435d31030028243ecb44fdda18e1e3d"
+    },
+    {
+      "path": "scripts/t800-loop-dispatcher.ps1",
+      "sha256": "27c7d88f17fdd4fb930ac5485854149048c790591306681319cf3523761108a3"
+    },
+    {
+      "path": "scripts/t800_loop_queue_write.py",
+      "sha256": "46725f0e0fd443bb2b2c10c20db1d095fbd4005de6694fbd3b31bd65bbb3d60e"
+    },
+    {
+      "path": "templates/loop-policy.json.template",
+      "sha256": "bbd3a5c356cedfde9d77cbba68d83157be62919207a42c42a42d579a7d420971"
+    },
+    {
+      "path": "templates/golden-expected.json.template",
+      "sha256": "1e8a0fa760676e1f02553b49972f695d2688c0d670f307655cd7cc9d9243bfcf"
+    },
+    {
+      "path": "docs/examples/self-golden/README.md",
+      "sha256": "b10a7472bcda18bdde0d1afdc14fb0578ade81dc4fbb5d8efc23dfaf632d2633"
+    }
+  ]
+}

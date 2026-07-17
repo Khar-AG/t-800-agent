@@ -1,6 +1,6 @@
 # COVERAGE-REPORT
 
-**Generated:** 2026-07-13 23:00
+**Generated:** 2026-07-17 13:10
 **Manifest pages:** 44
 **Explicit cards:** 44
 **Grouped coverage:** 0

@@ -83,8 +83,10 @@ check_exists "t800-plugin-audit command" "$CMDS/t800-plugin-audit.md" true "Task
 check_exists "t800-fix command" "$CMDS/t800-fix.md" true "t800_run_gate.py"
 check_exists "t800-doctor command" "$CMDS/t800-doctor.md" true "t800_doctor.py"
 check_exists "t800-update command" "$CMDS/t800-update.md" true "t800-auto-version-check.sh"
+check_exists "t800-loop command" "$CMDS/t800-loop.md" true "t-800-loop-conductor"
 check_exists "t-800-system-auditor" "$AGENTS/t-800-system-auditor.md" true "name: t-800-system-auditor"
 check_exists "t-800-plugin-auditor" "$AGENTS/t-800-plugin-auditor.md" true "name: t-800-plugin-auditor"
+check_exists "t-800-loop-conductor" "$AGENTS/t-800-loop-conductor.md" true "name: t-800-loop-conductor"
 if [ -f "$PLUGIN/scripts/t800_plugin_audit.py" ]; then
   echo "OK   t800_plugin_audit.py in plugin"
 else
@@ -101,6 +103,12 @@ if [ -f "$PLUGIN/shared/loop-engineering-contract.md" ]; then
   echo "OK   loop-engineering-contract.md"
 else
   echo "FAIL loop-engineering-contract.md missing"
+  failed=$((failed + 1))
+fi
+if [ -f "$PLUGIN/shared/lesson-schema-contract.md" ]; then
+  echo "OK   lesson-schema-contract.md"
+else
+  echo "FAIL lesson-schema-contract.md missing"
   failed=$((failed + 1))
 fi
 if [ -f "$PLUGIN/templates/STATE.md.template" ]; then
@@ -127,7 +135,9 @@ else
   echo "FAIL fix-pack.md.template missing"
   failed=$((failed + 1))
 fi
-for script in t800_run_gate.py t800_doctor.py t800_audit_to_fixpack.py; do
+for script in t800_run_gate.py t800_doctor.py t800_audit_to_fixpack.py \
+  t800_run_report.py t800_lessons_export.py t800_telemetry.py t800_risk_classifier.py \
+  t800_lessons_to_fixpack.py t800_golden_check.py t800-loop-dispatcher.sh t800_loop_queue_write.py; do
   if [ -f "$PLUGIN/scripts/$script" ]; then
     echo "OK   $script"
   else

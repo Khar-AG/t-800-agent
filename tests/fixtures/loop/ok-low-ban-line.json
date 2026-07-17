@@ -1,0 +1,10 @@
+{
+  "id": "ok-low-ban-line",
+  "expect_risk_class": "LOW",
+  "note": "Genuine LOW: single ban/Do NOT line on leaf agent",
+  "patch": {
+    "files": ["agents/t-800-scout.md"],
+    "change": "add one Do NOT ban line",
+    "kind": "ban_line"
+  }
+}

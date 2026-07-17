@@ -1,0 +1,10 @@
+{
+  "id": "trap-hook-script",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: hooks/ script",
+  "patch": {
+    "files": ["hooks/t-800-session-bootstrap.sh"],
+    "change": "description sync comment",
+    "kind": "description_sync"
+  }
+}

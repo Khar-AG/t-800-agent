@@ -2,6 +2,16 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.17.0 — 2026-07-17
+
+- **Loop Engineering v2** — semi-manual закрытие прогона: report → lessons → queue handoff
+- Команда **`/t800-loop`** + субагент `t-800-loop-conductor` (system-adjacent, readonly)
+- Контракты: `shared/loop-engineering-contract.md` v2.0.0, `shared/lesson-schema-contract.md`
+- Скрипты: `t800_run_report.py`, `t800_lessons_export.py`, `t800_telemetry.py`, `t800_risk_classifier.py`, `t800_lessons_to_fixpack.py`, `t800_golden_check.py`, `t800-loop-dispatcher.sh`, `t800_loop_queue_write.py`
+- Память: `runs/`, `telemetry/`, `loop-queue.md`, `.loop-paused`, `golden/`, `loop/` (session-notice); fix-packs из lessons
+- `risk_class` — только script classifier; без stop/followup; sessionStart остаётся **один** hook (dispatcher внутри bootstrap)
+- Handoff: после `/t800-start` → `/t800-loop`; batch из queue → `/t800-fix`
+
 ## 1.16.1 — 2026-07-14
 
 - Защита от обхода factory (анти-паттерн Zen Intel): Plan→Implement только через `/t800-start` / `/t800-fix`

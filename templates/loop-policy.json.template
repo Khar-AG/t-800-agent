@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "description": "Loop policy — может ТОЛЬКО сузить built-in LOW allowlist (не расширять).",
+  "disable_low_rules": [],
+  "notes": [
+    "Built-in LOW rules: single_leaf_agent_no_graph, single_ban_line, link_existing_shared_contract, typo_or_path_fix, description_sync, docs_or_changelog_only",
+    "Добавление id в allow_low_rules сверх built-in ИГНОРИРУЕТСЯ (intersection only)",
+    "risk_class назначает только scripts/t800_risk_classifier.py"
+  ],
+  "allow_low_rules": null,
+  "paused_file": ".loop-paused"
+}

@@ -1,6 +1,6 @@
-# T-800 Agent — реестр Task-субагентов (42)
+# T-800 Agent — реестр Task-субагентов (43)
 
-Плагин: **T-800 Agent** v1.16.1 — `/t800-fix` + `/t800-doctor` + `t800_run_gate.py --strict-create` + factory-bypass gate + fix-pack из audit + loop engineering + `/t800-plugin-audit` + DEEP research + factory + `/t800-cloud-hub` (Cloud Hub Automation Setup).
+Плагин: **T-800 Agent** v1.17.0 — `/t800-loop` (Loop Engineering v2) + `/t800-fix` + `/t800-doctor` + `t800_run_gate.py --strict-create` + factory-bypass gate + fix-pack из audit + `/t800-plugin-audit` + DEEP research + factory + `/t800-cloud-hub` (Cloud Hub Automation Setup).
 
 ## Сценарий старта (4 шага)
 
@@ -31,6 +31,7 @@ intake-clarifier?
 | **`/t800-audit`** | Интерактивный разбор rules/skills (что удалить) |
 | **`/t800-plugin-audit`** | Карта одного плагина → `{memory}/audits/` → fix-pack |
 | **`/t800-fix`** | Правка по fix-pack (PATCH + run_gate) |
+| **`/t800-loop`** | Loop Engineering v2: report/lessons → queue (semi-manual) |
 | **`/t800-update`** | Обновить плагин с zip / папки |
 | `/t800-start` | Создать артефакт |
 | **`/t800-cloud-hub`** | Blank Hub + Client Automations setup (`/t800-hub-setup`) |
@@ -43,6 +44,7 @@ intake-clarifier?
 | `t-800-onboard` | Онбординг |
 | `t-800-system-auditor` | Разбор bloat / keep-narrow-remove |
 | `t-800-plugin-auditor` | Аудит одного plugin-root (inventory/graph/orphans) |
+| `t-800-loop-conductor` | Semi-manual loop: report/lessons → queue; risk_class script-only |
 | `t-800-operator` | Наставник Cursor |
 
 ## Cloud Hub

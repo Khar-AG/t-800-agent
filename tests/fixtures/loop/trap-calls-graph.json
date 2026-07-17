@@ -1,0 +1,12 @@
+{
+  "id": "trap-calls-graph",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: calls/calledBy graph edit",
+  "patch": {
+    "files": ["agents/t-800-factory.md"],
+    "change": "update calls list to include loop-conductor",
+    "kind": "leaf_edit",
+    "touches_calls": true,
+    "flags": ["graph_change"]
+  }
+}

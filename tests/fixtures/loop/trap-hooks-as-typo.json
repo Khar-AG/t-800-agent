@@ -1,0 +1,10 @@
+{
+  "id": "trap-hooks-as-typo",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: hooks.json disguised as typo",
+  "patch": {
+    "files": ["hooks.json"],
+    "change": "typo fix in sessionStart command string",
+    "kind": "typo"
+  }
+}

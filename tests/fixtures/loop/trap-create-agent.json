@@ -1,0 +1,11 @@
+{
+  "id": "trap-create-agent",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: create agent",
+  "patch": {
+    "files": ["agents/t-800-new-helper.md"],
+    "change": "add helper agent",
+    "kind": "create_agent",
+    "create_agent": true
+  }
+}

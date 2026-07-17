@@ -1,0 +1,10 @@
+{
+  "id": "trap-gate-weaken",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: weaken run_gate",
+  "patch": {
+    "files": ["scripts/t800_run_gate.py"],
+    "change": "weaken gate — always exit 0 for convenience",
+    "kind": "leaf_edit"
+  }
+}

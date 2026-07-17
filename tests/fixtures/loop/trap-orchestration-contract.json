@@ -1,0 +1,10 @@
+{
+  "id": "trap-orchestration-contract",
+  "expect_risk_class": "HIGH",
+  "note": "False-LOW trap: department orchestration",
+  "patch": {
+    "files": ["shared/department-orchestration-contract.md"],
+    "change": "link existing shared contract typo",
+    "kind": "link_contract"
+  }
+}

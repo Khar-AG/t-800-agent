@@ -169,6 +169,8 @@ bash scripts/t800_loop_state.sh touch --memory-path "<memory_path>" --stage "fac
 Обнови STATE: Completed, Lessons, Gates.  
 Repair budget: после 2 FAIL → escalate пользователю (`loop-engineering-contract`).
 
+**Закрытие loop (рекомендуется):** после успешного прогона вызови **`/t800-loop`** — run report, lessons export, handoff в `loop-queue.md` (см. `shared/loop-engineering-contract.md` v2).
+
 ---
 
 Примеры:

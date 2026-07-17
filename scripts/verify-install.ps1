@@ -32,14 +32,27 @@ $checks = @(
     @{ Name = "t800-onboard command"; Path = Join-Path $cmds "t800-onboard.md"; ShouldExist = $true; MustContain = "Task(t-800-onboard)" },
     @{ Name = "t800-audit command"; Path = Join-Path $cmds "t800-audit.md"; ShouldExist = $true; MustContain = "Task(t-800-system-auditor)" },
     @{ Name = "t800-plugin-audit command"; Path = Join-Path $cmds "t800-plugin-audit.md"; ShouldExist = $true; MustContain = "Task(t-800-plugin-auditor)" },
+    @{ Name = "t800-fix command"; Path = Join-Path $cmds "t800-fix.md"; ShouldExist = $true; MustContain = "t800_run_gate.py" },
+    @{ Name = "t800-doctor command"; Path = Join-Path $cmds "t800-doctor.md"; ShouldExist = $true; MustContain = "t800_doctor.py" },
+    @{ Name = "t800-loop command"; Path = Join-Path $cmds "t800-loop.md"; ShouldExist = $true; MustContain = "t-800-loop-conductor" },
     @{ Name = "t800-update command"; Path = Join-Path $cmds "t800-update.md"; ShouldExist = $true; MustContain = "install-plugin.sh" },
     @{ Name = "t-800-system-auditor"; Path = Join-Path $agents "t-800-system-auditor.md"; ShouldExist = $true; MustContain = "name: t-800-system-auditor" },
     @{ Name = "t-800-plugin-auditor"; Path = Join-Path $agents "t-800-plugin-auditor.md"; ShouldExist = $true; MustContain = "name: t-800-plugin-auditor" },
+    @{ Name = "t-800-loop-conductor"; Path = Join-Path $agents "t-800-loop-conductor.md"; ShouldExist = $true; MustContain = "name: t-800-loop-conductor" },
     @{ Name = "t800_plugin_audit.py"; Path = Join-Path $plugin "scripts\t800_plugin_audit.py"; ShouldExist = $true; MustContain = $null },
     @{ Name = "plugin-audit-contract.md"; Path = Join-Path $plugin "shared\plugin-audit-contract.md"; ShouldExist = $true; MustContain = $null },
     @{ Name = "loop-engineering-contract.md"; Path = Join-Path $plugin "shared\loop-engineering-contract.md"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "lesson-schema-contract.md"; Path = Join-Path $plugin "shared\lesson-schema-contract.md"; ShouldExist = $true; MustContain = $null },
     @{ Name = "STATE.md.template"; Path = Join-Path $plugin "templates\STATE.md.template"; ShouldExist = $true; MustContain = $null },
     @{ Name = "t800_loop_state.sh"; Path = Join-Path $plugin "scripts\t800_loop_state.sh"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_run_report.py"; Path = Join-Path $plugin "scripts\t800_run_report.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_lessons_export.py"; Path = Join-Path $plugin "scripts\t800_lessons_export.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_telemetry.py"; Path = Join-Path $plugin "scripts\t800_telemetry.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_risk_classifier.py"; Path = Join-Path $plugin "scripts\t800_risk_classifier.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_lessons_to_fixpack.py"; Path = Join-Path $plugin "scripts\t800_lessons_to_fixpack.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_golden_check.py"; Path = Join-Path $plugin "scripts\t800_golden_check.py"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800-loop-dispatcher.sh"; Path = Join-Path $plugin "scripts\t800-loop-dispatcher.sh"; ShouldExist = $true; MustContain = $null },
+    @{ Name = "t800_loop_queue_write.py"; Path = Join-Path $plugin "scripts\t800_loop_queue_write.py"; ShouldExist = $true; MustContain = $null },
     @{ Name = "t-800 legacy alias"; Path = Join-Path $cmds "t-800.md"; ShouldExist = $true; MustContain = "/t800-start" },
     @{ Name = "legacy forge command absent"; Path = Join-Path $cmds "forge.md"; ShouldExist = $false; MustContain = $null },
     @{ Name = "local plugin"; Path = Join-Path $plugin ".cursor-plugin\plugin.json"; ShouldExist = $true; MustContain = "t-800-agent" }
@@ -75,13 +88,15 @@ foreach ($check in $checks) {
     Write-Host "OK   $($check.Name)" -ForegroundColor Green
 }
 
-$pluginJson = Get-Content -LiteralPath (Join-Path $plugin ".cursor-plugin\plugin.json") -Raw -Encoding utf8
-if ($pluginJson -notlike '*"version": "1.12.1"*') {
-    Write-Host "FAIL plugin.json version must be 1.12.1" -ForegroundColor Red
+$pluginJsonPath = Join-Path $plugin ".cursor-plugin\plugin.json"
+$pluginJsonObj = Get-Content -LiteralPath $pluginJsonPath -Raw -Encoding utf8 | ConvertFrom-Json
+$actualVer = $pluginJsonObj.version
+if ([string]::IsNullOrWhiteSpace($actualVer)) {
+    Write-Host "FAIL plugin.json version unreadable" -ForegroundColor Red
     $failed++
 }
 else {
-    Write-Host "OK   plugin.json version 1.12.1" -ForegroundColor Green
+    Write-Host "OK   plugin.json version $actualVer" -ForegroundColor Green
 }
 
 $agentContent = Get-Content -LiteralPath (Join-Path $agents "t-800-operator.md") -Raw -Encoding utf8

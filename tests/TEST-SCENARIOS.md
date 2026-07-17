@@ -125,6 +125,40 @@ python3 scripts/t800_run_gate.py \
 
 ---
 
+## Сценарий 7 — /t800-loop + dispatcher + classifier
+
+**Контекст:** Loop Engineering v2 — semi-manual закрытие прогона без stop/followup.
+
+**Ввод пользователя:**
+```
+/t800-loop
+```
+
+**Ожидание поведения:**
+- Директор зовёт `Task(t-800-loop-conductor)` (не полный DEEP `/t800-start`)
+- Скрипты: report → lessons export → queue write; `risk_class` только из `t800_risk_classifier.py`
+- Нет второго `sessionStart` hook — dispatcher внутри bootstrap
+
+**Проверка (machine, из `plugin_root` t-800-agent):**
+
+```bash
+# 1) Pause: dispatcher уважает .loop-paused
+MEMORY="<memory_path>"
+touch "$MEMORY/.loop-paused"
+bash scripts/t800-loop-dispatcher.sh --memory-path "$MEMORY"
+# ожидание: exit 0 / skip с сообщением paused; без записи в queue
+
+# 2) Classifier fixtures — zero false LOW
+python3 scripts/t800_risk_classifier.py --fixture-dir tests/fixtures/loop
+# или golden:
+python3 scripts/t800_golden_check.py --expected docs/examples/self-golden/expected.json --root .
+# ожидание: exit 0; ни один HIGH/MED fixture не классифицирован как LOW
+```
+
+**Статус:** [ ] PASS [ ] FAIL
+
+---
+
 ## Проверка установки (автоматическая)
 
 | Файл | Путь | Проверено |

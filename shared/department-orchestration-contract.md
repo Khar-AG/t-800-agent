@@ -12,8 +12,10 @@ Loop / STATE / machine gates: `shared/loop-engineering-contract.md`.
 | **Brains** | `t-800-brain-lead` | agents, context, cloud, dev, admin, security, tools, teya | Директор → **lead сам** выбирает 1–2 domain |
 | **Factory** | `t-800-factory` | architect, hooks, scripts, mcp-wiring, builder, integrator, prompt-auditor, auditor | Директор → **lead сам** пайплайн |
 | **Cloud Hub** (system-adjacent) | `t-800-cloud-hub-lead` | analyst, prompt, pack, smoke | Директор → `/t800-cloud-hub`; lead сам selective fan-out |
+| **Loop** (system-adjacent) | — | **`t-800-loop-conductor`**‡ | Директор → `/t800-loop` (semi-manual; не research/brain leaf) |
 
-† `t-800-cursor-kb-curator` — каденс living KB (`UPDATE-QUEUE` → maintainer); **не** на каждый hub-setup.
+† `t-800-cursor-kb-curator` — каденс living KB (`UPDATE-QUEUE` → maintainer); **не** на каждый hub-setup.  
+‡ `t-800-loop-conductor` — **не** новый research/brain агент: только report/lessons → queue handoff; `risk_class` script-only.
 
 \* `prompt-craft` — research-adjacent; вызывает Директор **или** factory lead после research (см. ниже).
 
@@ -187,6 +189,7 @@ progress:
 | `/t800-plugin-audit` | System | plugin-auditor + `t800_plugin_audit.py` (карта плагина → `{memory}/audits/`) → опц. `t800_audit_to_fixpack` |
 | `/t800-doctor` | System | `t800_doctor.py` (scripts-only; narrative onboard только по просьбе) |
 | `/t800-fix` | Research?→Brains→Factory | fix-pack → research SKIP/LIGHT → brain → factory **PATCH** → `t800_run_gate.py` |
+| `/t800-loop` | Loop (system-adjacent) | `t-800-loop-conductor` + scripts; semi-manual; queue → опц. `/t800-fix` |
 | `/t800-update` | System | ручной fallback; авто = `sessionStart` → `t800-auto-version-check.sh` |
 | `/t800-cloud-hub` (`/t800-hub-setup`) | Cloud Hub | только `t-800-cloud-hub-lead` → selective specialists; KB curator — отдельно |
 | `/t-800-operator` | System | operator |
@@ -203,7 +206,8 @@ progress:
 
 ## Версия
 
+- Обновлён: 2026-07-17 · T-800 **1.17.0** (`/t800-loop`, loop-conductor system-adjacent)  
 - Обновлён: 2026-07-09 · T-800 **1.13.0** (`/t800-fix`, `/t800-doctor`, run_gate)  
 - Loop: 2026-07-09 · T-800 **1.12.0** (STATE / machine gates)  
 - Введён отделы: 2026-07-09 · T-800 **1.11.0**  
-- Связанные: `loop-engineering-contract.md`, `fix-pipeline-contract.md`, `deep-research-contract.md`, `search-strategy-contract.md`, `t-800-factory-contract.md`, `plugin-audit-contract.md`, `t800-start.md`
+- Связанные: `loop-engineering-contract.md`, `lesson-schema-contract.md`, `fix-pipeline-contract.md`, `deep-research-contract.md`, `search-strategy-contract.md`, `t-800-factory-contract.md`, `plugin-audit-contract.md`, `t800-start.md`
