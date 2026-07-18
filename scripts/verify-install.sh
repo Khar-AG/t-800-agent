@@ -138,7 +138,7 @@ fi
 for script in t800_run_gate.py t800_doctor.py t800_audit_to_fixpack.py \
   t800_run_report.py t800_lessons_export.py t800_telemetry.py t800_risk_classifier.py \
   t800_lessons_to_fixpack.py t800_golden_check.py t800-loop-dispatcher.sh t800_loop_queue_write.py \
-  t800_kb_provenance_gate.py; do
+  t800_kb_provenance_gate.py t800_agents_mirror_gate.py; do
   if [ -f "$PLUGIN/scripts/$script" ]; then
     echo "OK   $script"
   else
@@ -146,6 +146,23 @@ for script in t800_run_gate.py t800_doctor.py t800_audit_to_fixpack.py \
     failed=$((failed + 1))
   fi
 done
+
+# Always-on: agents/*.md ↔ .cursor/agents/ (FS + sha256 + git pair) — FAIL, не WARN
+MIRROR_GATE="$PLUGIN/scripts/t800_agents_mirror_gate.py"
+if [ ! -f "$MIRROR_GATE" ]; then
+  MIRROR_GATE="$HERE/t800_agents_mirror_gate.py"
+fi
+if [ ! -f "$MIRROR_GATE" ]; then
+  echo "FAIL t800_agents_mirror_gate.py: скрипт не найден"
+  failed=$((failed + 1))
+else
+  if python3 "$MIRROR_GATE" --plugin-root "$PLUGIN"; then
+    echo "OK   agents mirror gate"
+  else
+    echo "FAIL agents mirror gate (agents/ ↔ .cursor/agents/)"
+    failed=$((failed + 1))
+  fi
+fi
 if [ -f "$PLUGIN/scripts/t800-update-from-github.sh" ]; then
   echo "OK   t800-update-from-github.sh"
 else

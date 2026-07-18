@@ -2,6 +2,12 @@
 
 Формат: дата — что изменилось — источник.
 
+## 1.19.0 — 2026-07-18
+
+- **Discovery:** marker + `knowledge_vault_path` не перебивает `profile=teya-plugin-dev` на TeyaPlugin
+- **Agents mirror gate:** `scripts/t800_agents_mirror_gate.py` — parity `agents/` ↔ `.cursor/agents/` (FS + git one-sided drift → FAIL)
+- `verify-install.sh` — always-on mirror gate; `t800_run_gate.py --require-agents-mirror` (opt-in)
+
 ## 1.18.0 — 2026-07-18
 
 - **Lesson Lifecycle v1.1** — `status`: open | applied | rejected (`shared/lesson-schema-contract.md`)

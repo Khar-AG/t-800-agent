@@ -52,7 +52,18 @@ while [[ "$search" != "/" ]]; do
       plugin_root="$(cd "$search/$pr" && pwd)"
     fi
     memory_path="$search/$memory_dir"
-    profile="marker"
+    # TeyaPlugin: marker + plugin-memory → сохранить profile teya-plugin-dev (KVP из marker)
+    if [[ -d "$search/plugin-memory" ]] && [[ -f "$search/.cursor-plugin/plugin.json" ]] \
+      && { [[ -f "$search/scripts/teya_plugin_root.py" ]] || [[ -f "$search/scripts/teya_docs_build.py" ]]; }; then
+      profile="teya-plugin-dev"
+      artifact_surface="cursor-plugin"
+      slug="${slug:-teya}"
+      if [[ "$release_handoff" == "null" ]]; then
+        release_handoff="\"/teya-release-sync\""
+      fi
+    else
+      profile="marker"
+    fi
     break
   fi
   search="$(dirname "$search")"
@@ -68,6 +79,13 @@ if [[ -z "$plugin_root" ]] && [[ -d "$WORKSPACE/plugin-memory" ]] && [[ -f "$WOR
     slug="teya"
     artifact_surface="cursor-plugin"
     release_handoff="\"/teya-release-sync\""
+    # Optional KVP from marker without overriding profile (if step 1 missed)
+    if [[ "$knowledge_vault_path" == "null" ]] && [[ -f "$WORKSPACE/project-memory.marker.json" ]]; then
+      kvp="$(python3 -c "import json; d=json.load(open('$WORKSPACE/project-memory.marker.json')); v=d.get('knowledge_vault_path'); print(v if isinstance(v,str) and v.strip() else '')" 2>/dev/null || echo "")"
+      if [[ -n "$kvp" ]]; then
+        knowledge_vault_path="\"$(python3 -c "from pathlib import Path; p=Path('''$kvp'''); print(p if p.is_absolute() else (Path('''$WORKSPACE''')/p).resolve())" 2>/dev/null || echo "$kvp")\""
+      fi
+    fi
   fi
 fi
 

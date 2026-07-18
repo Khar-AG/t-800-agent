@@ -4,7 +4,7 @@
 Usage:
   python3 scripts/t800_run_gate.py --memory-path PATH \\
       [--require-validate] [--require-plugin-audit-out DIR] [--plugin-root PATH] \\
-      [--strict-create] [--factory-brief PATH|SLUG]
+      [--require-agents-mirror] [--strict-create] [--factory-brief PATH|SLUG]
 """
 
 from __future__ import annotations
@@ -199,7 +199,16 @@ def main() -> int:
     parser.add_argument(
         "--plugin-root",
         default=None,
-        help="Корень плагина (для --require-validate)",
+        help="Корень плагина (для --require-validate / --require-agents-mirror)",
+    )
+    parser.add_argument(
+        "--require-agents-mirror",
+        action="store_true",
+        default=False,
+        help=(
+            "Запустить t800_agents_mirror_gate.py (--plugin-root обязателен). "
+            "Non-zero → FAIL. По умолчанию ВЫКЛ."
+        ),
     )
     parser.add_argument(
         "--strict-create",
@@ -293,6 +302,57 @@ def main() -> int:
                 )
             summary["checks"]["validate"] = "ok"
             print("OK  validate-agents.sh exit 0")
+
+    if args.require_agents_mirror:
+        if not args.plugin_root:
+            summary["checks"]["agents_mirror"] = "skipped_no_plugin_root"
+            return fail(
+                "Флаг --require-agents-mirror требует --plugin-root.",
+                summary,
+            )
+        plugin_root = Path(args.plugin_root).expanduser().resolve()
+        mirror_gate = plugin_root / "scripts" / "t800_agents_mirror_gate.py"
+        if not mirror_gate.is_file():
+            summary["checks"]["agents_mirror"] = "script_missing"
+            return fail(
+                f"--require-agents-mirror: нет скрипта {mirror_gate}",
+                summary,
+            )
+        try:
+            proc = subprocess.run(
+                [
+                    sys.executable,
+                    str(mirror_gate),
+                    "--plugin-root",
+                    str(plugin_root),
+                ],
+                cwd=str(plugin_root),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        except OSError as exc:
+            summary["checks"]["agents_mirror"] = "error"
+            return fail(
+                f"Не удалось запустить t800_agents_mirror_gate.py: {exc}",
+                summary,
+            )
+        if proc.returncode != 0:
+            summary["checks"]["agents_mirror"] = f"fail_exit_{proc.returncode}"
+            # stdout уже JSON от mirror gate — пробуем вложить
+            try:
+                nested = json.loads(proc.stdout or "")
+                if isinstance(nested, dict):
+                    summary["agents_mirror"] = nested
+            except json.JSONDecodeError:
+                summary["agents_mirror_stdout"] = (proc.stdout or "")[-800:]
+            tail = (proc.stderr or "")[-500:]
+            return fail(
+                f"t800_agents_mirror_gate.py exit {proc.returncode}. {tail}",
+                summary,
+            )
+        summary["checks"]["agents_mirror"] = "ok"
+        print("OK  t800_agents_mirror_gate exit 0")
 
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     print("PASS: t800_run_gate")
