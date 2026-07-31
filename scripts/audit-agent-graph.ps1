@@ -15,6 +15,15 @@ $registry = Get-Content -LiteralPath $registryPath -Raw -Encoding utf8 | Convert
 $failed = 0
 $agentIds = @{}
 
+$virtualNodes = @("main-agent")
+$vnProp = $registry.PSObject.Properties["virtualNodes"]
+if ($null -ne $vnProp -and $vnProp.Value -is [System.Management.Automation.PSCustomObject]) {
+    $vnNames = @($vnProp.Value.PSObject.Properties.Name)
+    if ($vnNames.Count -gt 0) {
+        $virtualNodes = $vnNames
+    }
+}
+
 foreach ($entry in $registry.agents) {
     $agentIds[$entry.id] = $entry
 
@@ -52,7 +61,7 @@ foreach ($entry in $registry.agents) {
     }
 
     foreach ($caller in @($entry.calledBy)) {
-        if ($caller -eq "main-agent") { continue }
+        if ($virtualNodes -contains $caller) { continue }
         if (-not $agentIds.ContainsKey($caller)) {
             Write-Host "FAIL $($entry.id).calledBy -> unknown '$caller'" -ForegroundColor Red
             $failed++

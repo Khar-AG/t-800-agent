@@ -100,6 +100,12 @@ foreach ($prop in $manifest.pages.PSObject.Properties) {
 }
 
 $report = @"
+---
+title: "Отчёт покрытия KB"
+provenance: manual
+author: t-800
+---
+
 # COVERAGE-REPORT
 
 **Manifest pages:** $($rows.Count)

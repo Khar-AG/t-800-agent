@@ -63,6 +63,12 @@ for url in manifest["pages"]:
     rows.append((status, url, coverage))
 
 lines = [
+    "---",
+    'title: "Отчёт покрытия KB"',
+    "provenance: manual",
+    "author: t-800",
+    "---",
+    "",
     "# COVERAGE-REPORT",
     "",
     f"**Manifest pages:** {len(rows)}",
