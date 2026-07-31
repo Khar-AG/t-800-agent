@@ -9,10 +9,10 @@
 | Handoff schema v2 | [schemas/factory-handoff.schema.json](schemas/factory-handoff.schema.json) |
 | Evidence helpers | [evidence.py](evidence.py) |
 | Contract | [evidence-bridge-contract.md](evidence-bridge-contract.md) |
-| Verifier (Teya) | `$TEYA_PLUGIN_ROOT/scripts/teya_t800_handoff_verify.py` |
-| Materializer HITL | `teya_t800_materialize_onboarding.py` |
-| Stale check | `teya_t800_provenance_stale_check.py` |
-| Release evidence | `teya_t800_release_evidence.py` |
+| Verifier (Teya) | `$TEYA_PLUGIN_ROOT/scripts/legacy/teya_t800_handoff_verify.py` |
+| Materializer HITL | `$TEYA_PLUGIN_ROOT/scripts/legacy/teya_t800_materialize_onboarding.py` |
+| Stale check | `$TEYA_PLUGIN_ROOT/scripts/legacy/teya_t800_provenance_stale_check.py` |
+| Release evidence | `$TEYA_PLUGIN_ROOT/scripts/legacy/teya_t800_release_evidence.py` |
 | Hook readiness | `scripts/t800_teya_hook_enforce_ready.py` |
 
 T-800 пишет `provenance_status=incomplete` only.  

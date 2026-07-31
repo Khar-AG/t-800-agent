@@ -26,10 +26,10 @@
     "hook_enforce_ready": "adapters/teya/scripts/t800_teya_hook_enforce_ready.py"
   },
   "teya_side_scripts": {
-    "verifier": "scripts/teya_t800_handoff_verify.py",
-    "materializer": "scripts/teya_t800_materialize_onboarding.py",
-    "stale_check": "scripts/teya_t800_provenance_stale_check.py",
-    "release_evidence": "scripts/teya_t800_release_evidence.py"
+    "verifier": "scripts/legacy/teya_t800_handoff_verify.py",
+    "materializer": "scripts/legacy/teya_t800_materialize_onboarding.py",
+    "stale_check": "scripts/legacy/teya_t800_provenance_stale_check.py",
+    "release_evidence": "scripts/legacy/teya_t800_release_evidence.py"
   },
   "contracts": {
     "onboarding_checklist": "adapters/teya/onboarding-checklist-contract.md",
