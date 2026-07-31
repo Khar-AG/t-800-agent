@@ -181,6 +181,12 @@ $warned = ($checks | Where-Object { $_.status -eq "WARN" }).Count
 $status = if ($failed -gt 0) { "FAIL" } elseif ($warned -gt 0) { "WARN" } else { "OK" }
 
 $report = @"
+---
+title: "HEALTH-REPORT"
+provenance: manual
+author: t-800
+---
+
 # HEALTH-REPORT
 
 **Status:** $status

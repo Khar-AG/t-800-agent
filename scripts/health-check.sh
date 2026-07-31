@@ -144,6 +144,12 @@ status="OK"
 [ "$failed" -eq 0 ] && [ "$warned" -gt 0 ] && status="WARN"
 
 {
+  echo "---"
+  echo 'title: "HEALTH-REPORT"'
+  echo "provenance: manual"
+  echo "author: t-800"
+  echo "---"
+  echo ""
   echo "# HEALTH-REPORT"
   echo ""
   echo "**Status:** $status"

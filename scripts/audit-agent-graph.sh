@@ -22,6 +22,8 @@ from pathlib import Path
 root = Path("$ROOT")
 registry = json.loads((root / "registry/agents-registry.json").read_text(encoding="utf-8-sig"))
 agents = {a["id"]: a for a in registry["agents"]}
+virtual = registry.get("virtualNodes")
+virtual_nodes = set(virtual) if isinstance(virtual, dict) and virtual else {"main-agent"}
 failed = 0
 
 for entry in registry["agents"]:
@@ -48,7 +50,7 @@ for entry in registry["agents"]:
             print(f"FAIL Asymmetric: {eid} calls {called} but {called}.calledBy lacks {eid}")
             failed += 1
     for caller in entry.get("calledBy", []):
-        if caller == "main-agent":
+        if caller in virtual_nodes:
             continue
         if caller not in agents:
             print(f"FAIL {eid}.calledBy -> unknown '{caller}'")
