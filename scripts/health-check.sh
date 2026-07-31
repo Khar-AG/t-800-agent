@@ -146,7 +146,6 @@ status="OK"
 {
   echo "# HEALTH-REPORT"
   echo ""
-  echo "**Generated:** $(date '+%Y-%m-%d %H:%M')"
   echo "**Status:** $status"
   echo "**Failed:** $failed"
   echo "**Warnings:** $warned"

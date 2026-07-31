@@ -183,7 +183,6 @@ $status = if ($failed -gt 0) { "FAIL" } elseif ($warned -gt 0) { "WARN" } else {
 $report = @"
 # HEALTH-REPORT
 
-**Generated:** $(Get-Date -Format "yyyy-MM-dd HH:mm")
 **Status:** $status
 **Failed:** $failed
 **Warnings:** $warned

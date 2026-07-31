@@ -130,6 +130,21 @@ def collect_refs_from_markdown(text: str, known_agents: set[str]) -> set[str]:
     return found
 
 
+def filter_refs_to_registry(
+    refs: set[str], registry_ids: set[str]
+) -> tuple[set[str], set[str]]:
+    """Сплит refs на (internal ∈ registry, external ∉ registry).
+
+    Пустой registry_ids (реестр отсутствует) → фильтр выключен:
+    refs возвращаются как есть, external пуст. Иначе else-ветка orphans
+    и поведение для плагинов без реестра обнулились бы.
+    """
+    if not registry_ids:
+        return set(refs), set()
+    internal = {r for r in refs if r in registry_ids}
+    return internal, refs - internal
+
+
 def inventory_hooks(plugin_root: Path) -> dict[str, Any]:
     hooks_path = plugin_root / "hooks.json"
     hooks_dir = plugin_root / "hooks"
@@ -242,12 +257,16 @@ def build_inventory(plugin_root: Path) -> dict[str, Any]:
     ]
     registry_path: Path | None = None
     registry_ids: set[str] = set()
-    registry_edge_targets: set[str] = set()
+    registry_entries: list[dict[str, Any]] = []
+    virtual_nodes: set[str] = set()
     for cand in registry_candidates:
         if cand.is_file():
             registry_path = cand
             data = load_json(cand)
             if isinstance(data, dict):
+                vn = data.get("virtualNodes")
+                if isinstance(vn, dict):
+                    virtual_nodes = {k for k in vn if isinstance(k, str)}
                 agents_list = data.get("agents", [])
                 if isinstance(agents_list, list):
                     for item in agents_list:
@@ -256,13 +275,30 @@ def build_inventory(plugin_root: Path) -> dict[str, Any]:
                         aid = item.get("id")
                         if isinstance(aid, str):
                             registry_ids.add(aid)
-                        for key in ("calls", "calledBy"):
-                            arr = item.get(key, [])
-                            if isinstance(arr, list):
-                                for x in arr:
-                                    if isinstance(x, str) and x != "main-agent":
-                                        registry_edge_targets.add(x)
+                        registry_entries.append(item)
             break
+    # main chat — платформенная точка входа Cursor, не агент плагина;
+    # fallback для реестров без декларации virtualNodes
+    virtual_nodes |= {"main-agent"}
+
+    registry_edge_targets: set[str] = set()
+    for item in registry_entries:
+        for key in ("calls", "calledBy"):
+            arr = item.get(key, [])
+            if isinstance(arr, list):
+                for x in arr:
+                    if isinstance(x, str) and x not in virtual_nodes:
+                        registry_edge_targets.add(x)
+        # coverage: entry покрыт, если у него есть валидный caller
+        # (registry id или virtual node) — напр. main chat
+        callers = item.get("calledBy", [])
+        if isinstance(callers, list) and any(
+            isinstance(c, str) and (c in registry_ids or c in virtual_nodes)
+            for c in callers
+        ):
+            aid = item.get("id")
+            if isinstance(aid, str):
+                registry_edge_targets.add(aid)
 
     # refs from command markdown
     refs_from_commands: set[str] = set()
@@ -283,6 +319,18 @@ def build_inventory(plugin_root: Path) -> dict[str, Any]:
             except OSError:
                 continue
             refs_from_agents |= collect_refs_from_markdown(text, agent_ids)
+
+    # refs: internal = значения ∈ registry.ids; остальное → refs.external.
+    # Фильтр выключен, если реестр отсутствует (registry_ids пуст).
+    external_refs: set[str] = set()
+    refs_from_chains, ext = filter_refs_to_registry(refs_from_chains, registry_ids)
+    external_refs |= ext
+    refs_from_commands, ext = filter_refs_to_registry(refs_from_commands, registry_ids)
+    external_refs |= ext
+    refs_from_agents, ext = filter_refs_to_registry(refs_from_agents, registry_ids)
+    external_refs |= ext
+    registry_edge_targets, ext = filter_refs_to_registry(registry_edge_targets, registry_ids)
+    external_refs |= ext
 
     linked_refs = (
         refs_from_chains
@@ -346,6 +394,7 @@ def build_inventory(plugin_root: Path) -> dict[str, Any]:
             "from_agents": sorted(refs_from_agents),
             "from_registry_edges": sorted(registry_edge_targets),
             "union": sorted(all_refs),
+            "external": sorted(external_refs),
         },
         "orphans": orphans,
         "soft_unreferenced": soft_unreferenced,

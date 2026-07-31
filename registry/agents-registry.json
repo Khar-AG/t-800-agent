@@ -4,6 +4,9 @@
   "updated": "2026-07-31",
   "plugin": "t-800-agent",
   "notes": "description = short catalog text; routing-текст живёт в frontmatter агента (agents/*.md)",
+  "virtualNodes": {
+    "main-agent": "main chat / Директор — точка входа вызовов, не агент плагина"
+  },
   "categories": {
     "scout": "Разведывательный модуль (Recon)",
     "research": "Автономная DEEP-разведка: strategist → specialists → synthesizer",
