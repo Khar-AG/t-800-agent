@@ -13,6 +13,10 @@ Usage:
   При --strict-create + --plugin-root auto-ON:
     agents-mirror, kb-provenance, frontmatter-yaml, skill-frontmatter,
     plugin-json-schema, command-chains.
+
+  Чек fixture_parity включён ВСЕГДА (без флага): новейший fix-pack в
+  {memory_path}/fix-packs/, тронувший обязательные шаги пайплайна без
+  фикстур tests/fixtures/** в том же pack и без fixtures_exempt → FAIL.
 """
 
 from __future__ import annotations
@@ -22,6 +26,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -189,6 +194,160 @@ def _check_strict_create(
     return None
 
 
+# Sibling-чек fixture_parity (fix-pack t800-fix-fixture-parity-check-2026-08-07).
+# Обязательные шаги пайплайна (гейты / preflight / скрипты run-gate), чья правка
+# в fix-pack обязывает обновить фикстуры tests/fixtures/** в том же pack.
+# Шаги названы по shared/command-chains.json (pipeline t800-fix / teya fix-loop).
+FIXTURE_PARITY_CRITICAL: tuple[tuple[str, str, str], ...] = (
+    # (путь от plugin_root, обязательный шаг, фикстура, покрывающая шаг)
+    ("scripts/t800_run_gate.py", "run-gates (t800_run_gate)", "tests/fixtures/fix-loop/"),
+    ("scripts/t800_loop_state.sh", "run-gates STATE (t800_loop_state)", "tests/fixtures/fix-loop/"),
+    ("scripts/t800_factory_bypass_gate.py", "factory-patch bypass gate", "tests/fixtures/fix-loop/"),
+    ("scripts/t800_command_chains_gate.py", "command-chains gate", "tests/fixtures/command-run/"),
+    ("shared/command-chains.json", "command-chains SSOT", "tests/fixtures/command-run/"),
+    ("shared/fix-pipeline-contract.md", "fix-pipeline контракт", "tests/fixtures/fix-loop/"),
+    ("scripts/teya_controlled_command_run.py", "controlled command-run preflight", "tests/fixtures/command-run/"),
+    ("scripts/teya_fix_command_gate.py", "fix-command gate", "tests/fixtures/fix-loop/"),
+    ("scripts/teya_fix_kp3.py", "fix preflight KP3", "tests/fixtures/fix-loop/"),
+)
+
+
+def _parse_fix_pack_files(pack_path: Path) -> list[str]:
+    """files[] секция fix-pack: строки вида `- `path`` внутри ##/### files."""
+    files: list[str] = []
+    in_files = False
+    for line in pack_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        if re.match(r"^#{2,3}\s*files\b", line, re.IGNORECASE):
+            in_files = True
+            continue
+        if in_files and re.match(r"^#{2,3}\s", line):
+            break
+        if in_files:
+            match = re.match(r"^-\s*`([^`]+)`", line.strip())
+            if match:
+                files.append(match.group(1).strip())
+    return files
+
+
+def _parse_fix_pack_exempt(pack_path: Path) -> str | None:
+    """fixtures_exempt: "<причина>" — осознанный opt-out из fixture_parity."""
+    text = pack_path.read_text(encoding="utf-8", errors="replace")
+    match = re.search(
+        r"(?im)^\s*fixtures_exempt\s*:\s*[\"']?(.+?)[\"']?\s*$", text
+    )
+    if match and match.group(1).strip():
+        return match.group(1).strip()
+    return None
+
+
+def _check_fixture_parity(memory_path: Path, summary: dict[str, Any]) -> int | None:
+    """FAIL, если новейший fix-pack тронул обязательный шаг пайплайна без
+    фикстур tests/fixtures/** в том же pack и без fixtures_exempt.
+
+    Закон: shared/fix-pipeline-contract.md § «Fixture parity». Включён всегда
+    (без флага): канонический вызов gate в конце /t800-fix — без флагов.
+    """
+    packs_dir = memory_path / "fix-packs"
+    packs = sorted(packs_dir.glob("*.md")) if packs_dir.is_dir() else []
+    if not packs:
+        summary["checks"]["fixture_parity"] = "skipped_no_packs"
+        print("OK  fixture_parity: нет fix-packs — пропуск")
+        return None
+    # Новейший pack = текущий прогон; при равном mtime — по имени (детерминизм)
+    pack = max(packs, key=lambda p: (p.stat().st_mtime, p.name))
+    files = [f.replace("\\", "/").lstrip("./") for f in _parse_fix_pack_files(pack)]
+
+    hits = [
+        (crit, step, fixture)
+        for crit, step, fixture in FIXTURE_PARITY_CRITICAL
+        if any(f == crit or f.endswith("/" + crit) for f in files)
+    ]
+    summary["fixture_parity"] = {
+        "pack": str(pack),
+        "critical_hits": [
+            {"file": crit, "step": step, "fixture": fixture}
+            for crit, step, fixture in hits
+        ],
+    }
+    if not hits:
+        summary["checks"]["fixture_parity"] = "ok_no_critical"
+        print(f"OK  fixture_parity: {pack.name} — обязательные шаги не тронуты")
+        return None
+
+    has_fixtures = any(f.startswith("tests/fixtures/") for f in files)
+    exempt = _parse_fix_pack_exempt(pack)
+    summary["fixture_parity"]["fixtures_in_pack"] = has_fixtures
+    summary["fixture_parity"]["fixtures_exempt"] = exempt
+
+    if has_fixtures:
+        summary["checks"]["fixture_parity"] = "ok"
+        print(
+            f"OK  fixture_parity: {pack.name} — фикстуры tests/fixtures/** "
+            "в том же pack"
+        )
+        return None
+    if exempt:
+        summary["checks"]["fixture_parity"] = "ok_exempt"
+        print(f"OK  fixture_parity: {pack.name} — fixtures_exempt: {exempt}")
+        return None
+
+    summary["checks"]["fixture_parity"] = "fail"
+    details = "; ".join(
+        f"{crit} (шаг: {step}, покрывает фикстура: {fixture})"
+        for crit, step, fixture in hits
+    )
+    return fail(
+        f"fixture_parity: fix-pack {pack.name} меняет обязательные шаги "
+        f"пайплайна без фикстур в том же pack: {details}. "
+        "Добавьте пути tests/fixtures/** в files[] pack (обновив фикстуры) "
+        'или явный opt-out `fixtures_exempt: "<причина>"` в pack.',
+        summary,
+    )
+
+
+def _record_run_archive(memory_path: Path, exit_code: int) -> None:
+    """Best-effort запись результата gate в per-run архив прогона.
+    t800_loop_state.sh на touch --stage fix|factory) и дописывает шаг run_gate
+    с exit code. Graceful: архива нет (старые прогоны) — пропуск, запись
+    никогда не влияет на exit code самого gate.
+    """
+    try:
+        archives = sorted(
+            memory_path.glob("run-manifest.archive.*.json"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if not archives:
+            print("OK  run-archive: нет run-manifest.archive.*.json (пропуск)")
+            return
+        archive = archives[0]
+        try:
+            loaded = json.loads(archive.read_text(encoding="utf-8"))
+            data = loaded if isinstance(loaded, dict) else {}
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+        verdict = "pass" if exit_code == 0 else "fail"
+        stages = [
+            s
+            for s in data.get("stages", [])
+            if isinstance(s, dict) and s.get("stage") != "run_gate"
+        ]
+        stages.append(
+            {"stage": "run_gate", "ts": ts, "verdict": verdict, "exit_code": exit_code}
+        )
+        data["stages"] = stages
+        data["run_gate"] = {"exit_code": exit_code, "ts": ts, "verdict": verdict}
+        data["updated_at"] = ts
+        archive.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        print(f"OK  run-archive обновлён: {archive}")
+    except OSError as exc:
+        # Запись архива — вторична: gate не ломаем из-за проблем с архивом
+        print(f"WARN run-archive: запись не удалась ({exc})", file=sys.stderr)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Machine gate прогона T-800 (STATE + optional validate/audit/strict-create)."
@@ -327,6 +486,12 @@ def main() -> int:
         )
     summary["checks"]["STATE.md"] = "ok"
     print(f"OK  STATE.md: {state}")
+
+    # fixture_parity — всегда ON: ловит «тронут обязательный шаг без фикстур»
+    # до релиза, в каноническом вызове без флагов.
+    parity_fail = _check_fixture_parity(memory_path, summary)
+    if parity_fail is not None:
+        return parity_fail
 
     if args.strict_create:
         strict_fail = _check_strict_create(
@@ -690,6 +855,9 @@ def main() -> int:
             )
         summary["checks"]["command_chains"] = "ok"
         print("OK  t800_command_chains_gate exit 0")
+
+    # PASS: фиксируем шаг в per-run архиве прогона (run_id = slug fix-pack)
+    _record_run_archive(memory_path, 0)
 
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     print("PASS: t800_run_gate")

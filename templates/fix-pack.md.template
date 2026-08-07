@@ -46,5 +46,6 @@ plugin_root (если есть):
 ## success_criteria
 
 - [ ] Изменения только в listed files
+- [ ] Фикстуры `tests/fixtures/fix-loop/` / `tests/fixtures/command-run/` обновлены в этом pack, если тронуты обязательные шаги пайплайна (иначе `fixtures_exempt: "<причина>"` в pack)
 - [ ] `python3 scripts/t800_run_gate.py --memory-path …` exit 0
 - [ ] …

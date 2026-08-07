@@ -185,6 +185,93 @@ if completed_hint:
 path.write_text(text, encoding="utf-8")
 print(f"OK STATE touched: {path}")
 PY
+
+  # Per-run архив манифеста: только для стадий fix|factory (fix-pipeline-contract).
+  # Корневой run-manifest.json не трогаем — он принадлежит текущему /t800-start прогону.
+  if [[ "$STAGE" == "fix" || "$STAGE" == "factory" ]]; then
+    python3 - <<'PY'
+import json
+import os
+import re
+from pathlib import Path
+
+memory = Path(os.environ["MEMORY_PATH"])
+stage = os.environ["STAGE"]
+msg = os.environ.get("MESSAGE", "")
+ts = os.environ["TS"]
+
+packs_dir = memory / "fix-packs"
+packs = []
+if packs_dir.is_dir():
+    packs = sorted(
+        packs_dir.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True
+    )
+if not packs:
+    # Graceful: прогоны без fix-pack (например чистый /t800-start) — пропуск
+    print("OK archive: нет fix-packs — пропуск")
+    raise SystemExit(0)
+
+pack = packs[0]
+# slug = имя fix-pack без даты вида -YYYY-MM-DD на конце
+slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", pack.stem)
+archive = memory / f"run-manifest.archive.{slug}.json"
+
+# files[] из секции «### files» pack-а (строки вида: - `path`)
+files = []
+in_files = False
+for line in pack.read_text(encoding="utf-8", errors="replace").splitlines():
+    if re.match(r"^#{2,3}\s*files\b", line, re.IGNORECASE):
+        in_files = True
+        continue
+    if in_files and re.match(r"^#{2,3}\s", line):
+        break
+    if in_files:
+        m = re.match(r"^-\s*`([^`]+)`", line.strip())
+        if m:
+            files.append(m.group(1))
+
+low = msg.lower()
+if "fail" in low or "blocker" in low:
+    verdict = "fail"
+elif "pass" in low or "готов" in low or "ok" in low:
+    verdict = "pass"
+else:
+    verdict = "recorded"
+
+data = {}
+if archive.is_file():
+    try:
+        loaded = json.loads(archive.read_text(encoding="utf-8"))
+        if isinstance(loaded, dict):
+            data = loaded
+    except (OSError, json.JSONDecodeError):
+        data = {}
+
+data.setdefault("run_id", slug)
+data["slug"] = slug
+data["fix_pack"] = f"fix-packs/{pack.name}"
+data.setdefault("created_at", ts)
+data["updated_at"] = ts
+data.setdefault("fragment", "fragments/t-800-factory.md")
+data.setdefault("run_gate", None)
+if files:
+    data["files"] = files
+
+# одна запись на стадию: повторный touch заменяет прежнюю
+stages = [
+    s
+    for s in data.get("stages", [])
+    if isinstance(s, dict) and s.get("stage") != stage
+]
+stages.append({"stage": stage, "ts": ts, "verdict": verdict, "message": msg})
+data["stages"] = stages
+
+archive.write_text(
+    json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+)
+print(f"OK archive manifest: {archive}")
+PY
+  fi
 }
 
 case "$CMD" in
